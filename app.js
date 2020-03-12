@@ -41,15 +41,7 @@ app.post('/assessments', (req, res) => {
     Adds title, description and quantity to assessment db
     Need to add other requirements on top of these
     */
-    var total = {};
-    var title = req.body.title;
-    var description = req.body.title;
-    var quantity = req.body.quantity;
-    var assessment = {
-        title: title, 
-        description: description,
-        quantity: quantity
-    };
+    var assessment = req.body.assessment
     Assessment.create(assessment, (err, createdAssessment) => {
         if(err) {
             console.log(err);
