@@ -12,12 +12,12 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 
-const assessmentsSchema = new mongoose.Schema({
+const assessmentSchema = new mongoose.Schema({
     title: String,
     description: String,
     quantity: Number
 });
-const Assessment = mongoose.model('Assessment', assessmentsSchema);
+const Assessment = mongoose.model('Assessment', assessmentSchema);
 
 // RESTFUL ROUTES
 
