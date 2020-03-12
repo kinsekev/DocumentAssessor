@@ -1,4 +1,4 @@
-# document_assessor
+# DocumentAssessor
 
 ```
 Develop a data-model (realisable in JSON), together with accompanying
