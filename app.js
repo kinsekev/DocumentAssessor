@@ -1,57 +1,57 @@
-const express    = require('express'),
-      path       = require('path'),
-      bodyParser = require('body-parser'),
-      mongoose   = require('mongoose'),
-      app        = express();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-// DATABASE CONNECTION
-mongoose.connect('mongodb://localhost/assessments', {useNewUrlParser: true, useUnifiedTopology: true});
+// require routes
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const assessmentsRouter = require('./routes/assessments');
 
-// APP CONFIG
+const app = express();
+
+// connect to the database
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost:27017/assessments', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('we\'re connected!');
+});
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: true}));
 
-const assessmentSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    quantity: Number
-});
-const Assessment = mongoose.model('Assessment', assessmentSchema);
+// mount routes
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/assessments', assessmentsRouter);
 
-// RESTFUL ROUTES
-
-// INDEX
-app.get('/', (req, res) => {
-    res.redirect('/assessments');
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-app.get('/assessments', (req, res) => {
-    res.render('index');
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-// NEW
-app.get('/assessments/new', (req, res) => {
-    res.render('new');
-});
-
-// CREATE
-app.post('/assessments', (req, res) => {
-    /*
-    Adds title, description and quantity to assessment db
-    Need to add other requirements on top of these
-    */
-    var assessment = req.body.assessment
-    Assessment.create(assessment, (err, createdAssessment) => {
-        if(err) {
-            console.log(err);
-        } else {
-            res.redirect('assessments');
-        }
-    });
-});
-
-// SERVER
-app.listen(3000, function() {
-    console.log('SERVER IS RUNNING ON PORT 3000!');
-});
+module.exports = app;

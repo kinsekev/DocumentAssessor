@@ -1,0 +1,17 @@
+Technologies:
+
+MongoDB
+ExpressJS
+Bootstrap
+NodeJS
+
+RESTful Routes:
+
+Name        Path                     HTTP Verb
+Index       /assessments              GET
+Show        /assessments/:id          GET
+New         /assessments/new          GET        (link to create form)
+Create      /assessments              POST       (save assesstment to database)
+Edit        /assessments/:id/edit     GET        (link to edit form)
+Update      /assessments/:id          PATCH      (update assessment in database)
+Destroy     /assessments/:id/delete   DELETE     (delete assesstment from database)
