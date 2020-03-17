@@ -18,7 +18,7 @@ module.exports = {
     // create assessment
     async assessmentCreate(req, res, next) {
         let resources = await readFileAsync(req.file.path);
-        resources = resources.toString().split(',');
+        resources = resources.toString().split(','); // resources must be seperated by comma
         req.body.assessment.resources = [];
         for(const link of resources) {
             req.body.assessment.resources.push({
