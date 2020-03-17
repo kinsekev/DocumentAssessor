@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+    <body>
+        <nav>
+            <ul>
+                <% if(!currentUser) {  %>
+                    <li><a href="/users/register">Register</a></li>
+                    <li><a href="/users/login">Login</a></li>
+                <% } else { %>
+                    <li><a href="#">Signed In As <%= currentUser.username %></a></li>
+                    <li><a href="/users/logout">Logout</a></li>
+                <% } %>
+            </ul>
+        </nav>

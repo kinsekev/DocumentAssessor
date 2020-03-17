@@ -6,6 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const localStrategy = require('passport-local');
 const session = require('express-session');
 const User = require('./models/user');
 
@@ -37,17 +38,23 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configure passport and sessions
-app.use(passport.initialize({
+app.use(session({
   secret: 'cs615 project',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // mount routes
 app.use('/', indexRouter);
@@ -63,7 +70,6 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.currentUser = req.user;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
