@@ -1,9 +1,17 @@
 <h1>Assessments Page!</h1>
 
+<div>
+    <a href="/assessments/new">Create Assessment</a>
+</div>
+
 <% assessments.forEach(function(assessment) { %>
     <div>
         <h2><%= assessment.title %></h2>
         <div><%= assessment.description %></div>
-        <div><a href="/assessments/<%= assessment.id %>">View More</a></div>
+        <div><%= assessment.instructions %></div>
+        <div><%= assessment.numUsers %></div>
+        <div>
+            <a href="/assessments/<%= assessment.id %>">View More</a>
+        </div>
     </div>
 <% }); %>

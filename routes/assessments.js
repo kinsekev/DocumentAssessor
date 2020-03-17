@@ -1,5 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer(
+    {
+        'dest': 'uploads/'
+    });
 const { 
     asyncErrorHandler 
 } = require('../middleware');
@@ -17,7 +22,7 @@ router.get('/', asyncErrorHandler(assessmentIndex));
 router.get('/new', asyncErrorHandler(assessmentNew));
 
 /* POST CREATE assessments index /assessments */
-router.post('/', asyncErrorHandler(assessmentCreate));
+router.post('/', upload.single('file'), asyncErrorHandler(assessmentCreate));
 
 /* GET SHOW assessments index /assessments/:id */
 router.get('/:id', asyncErrorHandler(assessmentShow));

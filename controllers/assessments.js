@@ -1,4 +1,7 @@
+const fs = require('fs');
+const { promisify } = require('util');
 const Assessment = require('../models/assessment');
+const readFileAsync = promisify(fs.readFile);
 
 module.exports = {
     // index assessments
@@ -14,6 +17,14 @@ module.exports = {
 
     // create assessment
     async assessmentCreate(req, res, next) {
+        let resources = await readFileAsync(req.file.path);
+        resources = resources.toString().split(',');
+        req.body.assessment.resources = [];
+        for(const link of resources) {
+            req.body.assessment.resources.push({
+                link: link
+            });
+        }
         let assessment = await Assessment.create(req.body.assessment);
         res.redirect(`/assessments/${assessment.id}`);
     },
