@@ -13,7 +13,10 @@ module.exports = {
             username: req.body.username
         });
         await User.register(newUser, req.body.password);
-        res.redirect('/');
+        passport.authenticate('local', {
+            successRedirect: '/',
+            failureRedirect: '/users/login'
+        })(req, res, next);
     },
 
     // GET /login
