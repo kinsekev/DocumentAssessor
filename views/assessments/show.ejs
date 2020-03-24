@@ -10,10 +10,13 @@
     <div>
         <ul>
             <% assessment.resources.forEach(function(resource) { %>
-                <li><%= resource.link %></li>
+                <a href="#"><li><%= resource.link %></li></a>
             <% }); %>
         </ul>
     </div>
+    <form action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
+        <input type="submit" value="Delete">
+    </form>
 </div>
 
 <%- include('../partials/footer') %>

@@ -9,6 +9,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const session = require('express-session');
 const User = require('./models/user');
+const methodOverride = require('method-override');
 
 // require routes
 const indexRouter = require('./routes/index');
@@ -36,6 +37,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 // configure passport and sessions
 app.use(session({

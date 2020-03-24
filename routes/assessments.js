@@ -12,7 +12,8 @@ const {
     assessmentIndex,
     assessmentNew,
     assessmentCreate,
-    assessmentShow
+    assessmentShow,
+    assessmentDestroy
 } = require('../controllers/assessments');
 
 /* GET INDEX assessments index /assessments */
@@ -38,8 +39,6 @@ router.put('/:id', (req, res, next) => {
 });
 
 /* DELETE assessments index /assessments/:id */
-router.delete('/:id', (req, res, next) => {
-    res.send('DELETE /assessments/:id route');
-});
+router.delete('/:id', asyncErrorHandler(assessmentDestroy));
 
 module.exports = router;

@@ -9,7 +9,7 @@ module.exports = {
         res.render('assessments/index', { assessments });
     },
 
-    // new post
+    // new assessments
     async assessmentNew(req, res, next) {
         res.render('assessments/new');
     },
@@ -35,5 +35,12 @@ module.exports = {
     async assessmentShow(req, res, next) {
         let assessment = await Assessment.findById(req.params.id);
         res.render('assessments/show', { assessment });
+    },
+
+    // delete route
+    async assessmentDestroy(req, res, next) {
+        let assessment = await Assessment.findById(req.params.id);
+        await assessment.remove();
+        res.redirect('/assessments');
     }
 }
