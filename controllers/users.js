@@ -9,12 +9,7 @@ module.exports = {
 
     // POST /register
     async postRegister(req, res, next) {
-        let isResearcher;
-        if (req.body.userType === "researcher") {
-            isResearcher = true;
-        } else {
-            isResearcher = false;
-        }
+        let isResearcher = req.body.userType === "researcher" ? true : false;
         const newUser = new User({
             username: req.body.username,
             isResearcher: isResearcher
