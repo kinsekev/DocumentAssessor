@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const Assessment = require('../models/assessment');
+const users = require('../mock_data/users');
 
 module.exports = {
     // index assessments
@@ -34,7 +35,7 @@ module.exports = {
     // show assessment
     async assessmentShow(req, res, next) {
         let assessment = await Assessment.findById(req.params.id);
-        res.render('assessments/show', { assessment });
+        res.render('assessments/show', { assessment, users: users });
     },
 
     // delete route
