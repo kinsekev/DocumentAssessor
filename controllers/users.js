@@ -9,10 +9,8 @@ module.exports = {
 
     // POST /register
     async postRegister(req, res, next) {
-        let isResearcher = req.body.userType === "researcher" ? true : false;
         const newUser = new User({
-            username: req.body.username,
-            isResearcher: isResearcher
+            username: req.body.username
         });
         await User.register(newUser, req.body.password);
         passport.authenticate('local', {
