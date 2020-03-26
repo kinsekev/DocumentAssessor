@@ -7,7 +7,8 @@ const assessmentSchema = new mongoose.Schema({
     numAssessmentsPerUser: Number,
     resources: [
         {
-            link: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Researcher'
         }
     ]
 });

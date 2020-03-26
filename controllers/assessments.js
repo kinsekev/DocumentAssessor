@@ -1,6 +1,8 @@
 const fs = require('fs');
 const readline = require('readline');
 const Assessment = require('../models/assessment');
+const Resource = require('../models/resource');
+
 const users = require('../mock_data/users');
 
 module.exports = {
@@ -17,18 +19,23 @@ module.exports = {
 
     // create assessment
     async assessmentCreate(req, res, next) {
+        // create the assessment
+        let assessment = await Assessment.create(req.body.assessment);
+
+        // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
-          });
-          req.body.assessment.resources = [];
-          for await (const line of rl) {
-            req.body.assessment.resources.push({
-                link: line
-            });
-          }
-        let assessment = await Assessment.create(req.body.assessment);
+        });
+        // create a new resource for each one in text and push it to the assessment
+        for await (const line of rl) {
+            let newResource = {link: line};
+            let resource = await Resource.create(newResource);
+            assessment.resources.push(resource);
+            assessment.save();
+            console.log(resource);
+        }
         res.redirect(`/assessments/${assessment.id}`);
     },
 
