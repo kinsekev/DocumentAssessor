@@ -9,7 +9,7 @@ const {
   getLogin,
   postLogin,
   getLogout
-} = require('../controllers/users');
+} = require('../controllers/researchers');
 
 /* GET /register */
 router.get('/register', asyncErrorHandler(getRegister));

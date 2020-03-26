@@ -8,12 +8,12 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const session = require('express-session');
-const User = require('./models/user');
+const Researcher = require('./models/researcher');
 const methodOverride = require('method-override');
 
 // require routes
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const researchersRouter = require('./routes/researchers');
 const assessmentsRouter = require('./routes/assessments');
 
 const app = express();
@@ -48,10 +48,10 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use(new localStrategy(Researcher.authenticate()));
+passport.use(Researcher.createStrategy());
+passport.serializeUser(Researcher.serializeUser());
+passport.deserializeUser(Researcher.deserializeUser());
 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
@@ -60,7 +60,7 @@ app.use(function(req, res, next) {
 
 // mount routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/researchers', researchersRouter);
 app.use('/assessments', assessmentsRouter);
 
 // catch 404 and forward to error handler

@@ -7,11 +7,11 @@
         <nav>
             <ul>
                 <% if(!currentUser) {  %>
-                    <li><a href="/users/register">Register</a></li>
-                    <li><a href="/users/login">Login</a></li>
+                    <li><a href="/researchers/register">Register</a></li>
+                    <li><a href="/researchers/login">Login</a></li>
                 <% } else { %>
                     <li><a href="#">Signed In As <%= currentUser.username %></a></li>
-                    <li><a href="/users/logout">Logout</a></li>
+                    <li><a href="/researchers/logout">Logout</a></li>
                 <% } %>
             </ul>
         </nav>
