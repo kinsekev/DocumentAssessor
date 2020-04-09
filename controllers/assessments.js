@@ -16,6 +16,10 @@ module.exports = {
     async assessmentNew(req, res, next) {
         res.render('assessments/new');
     },
+    //assesmet tes
+    async  assessmentTest(req, res, next){
+        res.render('assessments/test');
+    },
 
     // create assessment
     async assessmentCreate(req, res, next) {
@@ -29,7 +33,7 @@ module.exports = {
             crlfDelay: Infinity
         });
         // create a new resource for each one in text and push it to the assessment
-        for await (const line of rl) {
+        for(const line of rl) {
             let newResource = {link: line};
             let resource = await Resource.create(newResource);
             assessment.resources.push(resource);
