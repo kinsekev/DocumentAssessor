@@ -1,21 +1,30 @@
 <%- include('../partials/header') %>
+<div class="container" style ="width:70%">
 
-<h1>Assessments Page!</h1>
-
-<div>
-    <a href="/assessments/new">Create Assessment</a>
-</div>
-
+<h1 class="text:center">Assessments Page!</h1>
 <% assessments.forEach(function(assessment) { %>
-    <div>
-        <h2><%= assessment.title %></h2>
-        <div><%= assessment.description %></div>
-        <div><%= assessment.instructions %></div>
-        <div><%= assessment.numAssessmentsPerUser %></div>
-        <div>
-            <a href="/assessments/<%= assessment.id %>">View More</a>
-        </div>
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="<%= assessment.id %>">
+      <h5 class="mb-0">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#<%= assessment.title %>" aria-expanded="true" aria-controls="<%= assessment.title %>">
+          <%= assessment.title %>
+        </button>
+      </h5>
     </div>
-<% }); %>
 
+    <div id="<%= assessment.title %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+            <h6><b>Description</b><h6>
+                <div><%= assessment.description %></div>
+            <h6><b> Link to resources</b></h6>
+                <div><%= assessment.instructions %></div>
+            <h6><b> Number of assesments per user</b></h6>
+                <div><%= assessment.numAssessmentsPerUser %></div>
+            <h6><b>  
+            <a href="/assessments/<%= assessment.id %>">View More</a> </b></h6>
+      </div>
+    </div>
+  </div>
+ <% }); %>
 <%- include('../partials/footer') %>
