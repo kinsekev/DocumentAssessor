@@ -10,7 +10,22 @@
     <div>
         <ul>
             <% assessment.resources.forEach(function(resource) { %>
-                <a href="#"><li><%= resource.link %></li></a>
+                <div>
+                    <h4><%= resource.task %></h4>
+                    <% resource.links.forEach(function(form) { %>
+                        <a href="#"><li><%= form.link %></li></a>
+                        <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
+                        <!-- Maybe change the ratings to something better -->
+                        <!-- Ratings doesn't have a form yet -->
+                        <select name="ratings" id="ratings">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    <% }); %>
+                </div>
             <% }); %>
         </ul>
     </div>
