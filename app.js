@@ -10,6 +10,7 @@ const localStrategy = require('passport-local');
 const session = require('express-session');
 const Researcher = require('./models/researcher');
 const methodOverride = require('method-override');
+const seedUserDB = require('./seeds/users');
 
 // require routes
 const indexRouter = require('./routes/index');
@@ -62,6 +63,9 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/researchers', researchersRouter);
 app.use('/assessments', assessmentsRouter);
+
+// mock users
+seedUserDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
