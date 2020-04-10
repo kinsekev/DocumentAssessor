@@ -8,7 +8,7 @@ const assessmentSchema = new mongoose.Schema({
     resources: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Researcher'
+            ref: 'Resource'
         }
     ]
 });

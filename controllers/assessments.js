@@ -32,21 +32,25 @@ module.exports = {
             input: fileStream,
             crlfDelay: Infinity
         });
+
         // create a new resource for each one in text and push it to the assessment
-        for(const line of rl) {
+        for await(const line of rl) {
+
+        // create a new resource for each one in text file and push it to the assessment
+        for await (const line of rl) {
+        master
             let newResource = {link: line};
             let resource = await Resource.create(newResource);
             assessment.resources.push(resource);
             assessment.save();
-            console.log(resource);
         }
         res.redirect(`/assessments/${assessment.id}`);
     },
 
     // show assessment
     async assessmentShow(req, res, next) {
-        let assessment = await Assessment.findById(req.params.id);
-        res.render('assessments/show', { assessment, users: users });
+        let assessment = await Assessment.findById(req.params.id).populate('resources').exec();
+        res.render('assessments/show', { assessment, users });
     },
 
     // delete route
