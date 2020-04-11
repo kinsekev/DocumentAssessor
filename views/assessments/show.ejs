@@ -12,8 +12,21 @@
             <% assessment.resources.forEach(function(resource) { %>
                 <div>
                     <h4><%= resource.task %></h4>
-                    <% if(resource.user) { %>
+                    <% if(!resource.user.username) { %>
+                        <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=PUT" method="POST">
+                            <label for="assignUser">Assign User:</label>
+                            <select name="assignUser" id="assignUser" size="3">
+                                <% users.forEach(function(user) { %>
+                                    <option value="<%= user.username %>"><%= user.username %></option>
+                                <% }); %>
+                            </select>
+                            <button type="submit">Assign User</button>
+                        </form>
+                    <% } else { %>
                         <h4><%= resource.user.username %></h4>
+                        <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/user/<%= resource.user.id %>?_method=PUT" method="POST">
+                            <button type="submit">Unassign User</button>
+                        </form>
                     <% } %>
                     <% resource.links.forEach(function(form) { %>
                         <a href="#"><li><%= form.link %></li></a>

@@ -4,7 +4,6 @@ const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Form = require('../models/form');
 const User = require('../models/user');
-const mongoose = require('mongoose');
 
 module.exports = {
     // index assessments
@@ -107,7 +106,8 @@ module.exports = {
                 path: 'links'
             }
         }).exec();
-        res.render('assessments/show', { assessment });
+        let users = await User.find({});
+        res.render('assessments/show', { assessment, users });
     },
 
     // delete route

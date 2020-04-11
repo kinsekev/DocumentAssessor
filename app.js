@@ -16,12 +16,13 @@ const seedUserDB = require('./seeds/users');
 const indexRouter = require('./routes/index');
 const researchersRouter = require('./routes/researchers');
 const assessmentsRouter = require('./routes/assessments');
+const resourcesRouter = require('./routes/resources');
 
 const app = express();
 
 // connect to the database
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/assessments', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/assessments', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -63,9 +64,10 @@ app.use(function(req, res, next) {
 app.use('/', indexRouter);
 app.use('/researchers', researchersRouter);
 app.use('/assessments', assessmentsRouter);
+app.use('/assessments/:id/resources', resourcesRouter);
 
 // mock users
-seedUserDB();
+// seedUserDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
