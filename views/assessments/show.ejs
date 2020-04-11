@@ -29,17 +29,27 @@
                         </form>
                     <% } %>
                     <% resource.links.forEach(function(form) { %>
-                        <a href="#"><li><%= form.link %></li></a>
-                        <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
+                        <a href="#"><%= form.link %></a>
+                        <% if(form.rating) { %>
+                            <li>Rating: <%= form.rating %></li>
+                            <li>Text Answer: <%= form.text %></li>
+                        <% } else { %>
+                            <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
+                                <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
+                                <select name="rating" id="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <button type="submit">Submit</button>
+                            </form>
+                        <% } %>
+                        
                         <!-- Maybe change the ratings to something better -->
                         <!-- Ratings doesn't have a form yet -->
-                        <select name="ratings" id="ratings">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                        
                     <% }); %>
                 </div>
             <% }); %>

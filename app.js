@@ -17,6 +17,7 @@ const indexRouter = require('./routes/index');
 const researchersRouter = require('./routes/researchers');
 const assessmentsRouter = require('./routes/assessments');
 const resourcesRouter = require('./routes/resources');
+const formRouter = require('./routes/forms');
 
 const app = express();
 
@@ -65,9 +66,10 @@ app.use('/', indexRouter);
 app.use('/researchers', researchersRouter);
 app.use('/assessments', assessmentsRouter);
 app.use('/assessments/:id/resources', resourcesRouter);
+app.use('/assessments/:id/resources/:resource_id/forms', formRouter);
 
 // mock users
-// seedUserDB();
+//seedUserDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
