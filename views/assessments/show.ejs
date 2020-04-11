@@ -12,6 +12,9 @@
             <% assessment.resources.forEach(function(resource) { %>
                 <div>
                     <h4><%= resource.task %></h4>
+                    <% if(resource.user) { %>
+                        <h4><%= resource.user.username %></h4>
+                    <% } %>
                     <% resource.links.forEach(function(form) { %>
                         <a href="#"><li><%= form.link %></li></a>
                         <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
