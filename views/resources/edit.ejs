@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+
+<h1>This is the resource new page!</h1>
+
+<form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=PUT" method="POST">
+    <div>
+        <input type="text" name="resource[task]" value="<%= resource.task %>">
+    </div>
+    <div>
+        <label for="user">Choose users:</label>
+        <select name="user" id="user" size="5" multiple>
+            <option value="">Assign No Users</option>
+            <% users.forEach(function(user) { %>
+                <% if(resource.user.username && user.username === resource.user.username) { %>
+                    <option value="<%= user.username %>" selected><%= user.username %></option>
+                <% } else { %>
+                    <option value="<%= user.username %>"><%= user.username %></option>
+                <% } %>
+            <% }); %>
+        </select>
+    </div>
+    <div>
+        <button>Edit Resource</button>
+    </div>
+</form>
+
+<%- include('../partials/footer') %>
