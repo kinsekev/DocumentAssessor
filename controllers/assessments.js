@@ -41,23 +41,18 @@ module.exports = {
         }
 
         // create variables for assignment
-        let curIndex = 0;
         let task = assessment.instructions;
         let lastIndex = assessment.numAssessmentsPerUser;
     
-        for (let i = curIndex; i < resourceArr.length; i++) {
-            let resource = await Resource.create({ task: task });
-            for (let j = curIndex; j < lastIndex; j++) {
-                let curLink = { link : resourceArr[j] };
-                let newForm = await Form.create(curLink);
-                resource.links.push(newForm);
-                resource.save();
+        for (let i = 0; i < resourceArr.length; i += lastIndex) {
+            resourceObj = {
+                task: task,
+                links: resourceArr.slice(i, i + lastIndex),
+                started: false
             }
+            let resource = await Resource.create(resourceObj);
             assessment.resources.push(resource);
             assessment.save();
-            curIndex += assessment.numAssessmentsPerUser;
-            i = curIndex;
-            lastIndex += assessment.numAssessmentsPerUser;
         }
 
         // assign users if researcher has added users in drop
@@ -101,14 +96,25 @@ module.exports = {
     // show assessment
     async assessmentShow(req, res, next) {
         let assessment = await Assessment.findById(req.params.id).populate({
-            path: 'resources links',
+            path: 'resources forms',
             populate: {
-                path: 'links'
-            }
+                path: 'forms'
+            }   
         }).exec();
-        let users = await User.find({});
-        res.render('assessments/show', { assessment, users });
+        res.render('assessments/show', { assessment });
     },
+
+    // show assessment
+    // async assessmentShow(req, res, next) {
+    //     let assessment = await Assessment.findById(req.params.id).populate({
+    //         path: 'resources links',
+    //         populate: {
+    //             path: 'links'
+    //         }
+    //     }).exec();
+    //     let users = await User.find({});
+    //     res.render('assessments/show', { assessment, users });
+    // },
 
     // delete route
     async assessmentDestroy(req, res, next) {

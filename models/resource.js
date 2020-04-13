@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const resourceSchema = new mongoose.Schema({
     task: String,
     links: [
+        String
+    ],
+    forms: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Form'
@@ -14,7 +17,8 @@ const resourceSchema = new mongoose.Schema({
             ref: 'User'
         },
         username: String
-    }
+    },
+    started: Boolean
 });
 
 module.exports = mongoose.model('Resource', resourceSchema);

@@ -36,8 +36,18 @@ module.exports = {
         // variables
         let task = assessment.instructions;
         let user = req.body.user;
-        let newResource;
-        let userObj;
+        let resourceObj = {
+            task: task,
+            links: resourceArr.slice(0, resourceArr.length),
+            started: false
+        }
+
+        // create the resource
+        let resource = await Resource.create(resourceObj);
+        // push resource onto the assessment
+        assessment.resources.push(resource);
+        // save the assessment
+        assessment.save();
 
         if(user) {
             // assign user if there is one passed
@@ -46,22 +56,10 @@ module.exports = {
                 id: currentUser.id,
                 username: currentUser.username
             }
-            newResource = await Resource.create({ task: task, user: userObj });
-        } else {
-            // don't assign user if there is not one passed
-            newResource = await Resource.create({ task: task });
+            resource.user = userObj;
+            resource.save();
         }
-        
-        // create a form for each of the links the user must assess
-        for (let index = 0; index < resourceArr.length; index++) {
-            let curLink = { link : resourceArr[index] };
-            let newForm = await Form.create(curLink);
-            newResource.links.push(newForm);
-            newResource.save();
-        }
-        assessment.resources.push(newResource);
-        assessment.save();
-
+        // redirect to the assessment
         res.redirect(`/assessments/${assessment.id}`);
     },
     
@@ -103,11 +101,6 @@ module.exports = {
     async resourceDestroy(req, res, next) {
         // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
-        // find the forms associated with this resource and delete them
-        let links = resource.links;
-        for await(let link of links) {
-            await Form.findByIdAndRemove(link);
-        }
         // delete the resource
         await resource.remove();
         // redirect to the assessment page where the resource has been deleted
