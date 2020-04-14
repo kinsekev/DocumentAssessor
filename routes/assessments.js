@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router( { mergeParams: true } );
 const multer = require('multer');
 const upload = multer(
     {
@@ -13,33 +13,30 @@ const {
     assessmentNew,
     assessmentCreate,
     assessmentShow,
+    assessmentEdit,
+    assessmentUpdate,
     assessmentDestroy
 } = require('../controllers/assessments');
 
-/* GET INDEX assessments index /assessments */
+/* GET INDEX assessments /assessments */
 router.get('/', asyncErrorHandler(assessmentIndex));
 
-/* GET NEW assessments index /assessments/new */
-    router.get('/new', asyncErrorHandler(assessmentNew));
+/* GET NEW assessments /assessments/new */
+router.get('/new', asyncErrorHandler(assessmentNew));
 
-
-/* POST CREATE assessments index /assessments */
+/* POST CREATE assessments /assessments */
 router.post('/', upload.single('file'), asyncErrorHandler(assessmentCreate));
 
-/* GET SHOW assessments index /assessments/:id */
+/* GET SHOW assessments /assessments/:id */
 router.get('/:id', asyncErrorHandler(assessmentShow));
 
-/* GET EDIT assessments index /assessments/:id/edit */
-router.get('/:id/edit', (req, res, next) => {
-    res.send('GET EDIT /assessments/:id/edit route');
-});
+/* GET EDIT assessments /assessments/:id/edit */
+router.get('/:id/edit', asyncErrorHandler(assessmentEdit));
 
-/* PUT UPDATE assessments index /assessments/:id */
-router.put('/:id', (req, res, next) => {
-    res.send('PUT UPDATE /assessments/:id route');
-});
+/* PUT UPDATE assessments /assessments/:id */
+router.put('/:id', upload.single('file'), asyncErrorHandler(assessmentUpdate));
 
-/* DELETE assessments index /assessments/:id */
+/* DELETE DESTROY assessments  /assessments/:id */
 router.delete('/:id', asyncErrorHandler(assessmentDestroy));
 
 module.exports = router;

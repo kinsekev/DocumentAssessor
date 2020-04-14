@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+
+<h1>This is the form edit route!</h1>
+
+<form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
+    <textarea name="ratingText" cols="50" rows="2"></textarea>
+    <select name="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+<%- include('../partials/footer') %>
