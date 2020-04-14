@@ -1,19 +1,22 @@
 <%- include('../partials/header') %>
 <div class="container" style ="width:70%">
 
-<h1 class="text:center">Assessments Page!</h1>
+<h1 class="text:center" style="text: center     ">Assessments Page!</h1>
 <% assessments.forEach(function(assessment) { %>
+    <% let r = Math.random().toString(36).substring(7) %>
+    <% console.log("random", r) %>
+
 <div id="accordion">
   <div class="card">
     <div class="card-header" id="<%= assessment.id %>">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#<%= assessment.title %>" aria-expanded="true" aria-controls="<%= assessment.title %>">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#<%= r %>" aria-expanded="true" aria-controls="<%= assessment.title %>">
           <%= assessment.title %>
         </button>
       </h5>
     </div>
 
-    <div id="<%= assessment.title %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="<%=  r %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
             <h6><b>Description</b><h6>
                 <div><%= assessment.description %></div>
@@ -27,4 +30,3 @@
     </div>
   </div>
  <% }); %>
-<%- include('../partials/footer') %>

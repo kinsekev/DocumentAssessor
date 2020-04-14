@@ -20,7 +20,7 @@ const {
 router.get('/', asyncErrorHandler(assessmentIndex));
 
 /* GET NEW assessments index /assessments/new */
-router.get('/new', asyncErrorHandler(assessmentNew));
+    router.get('/new', asyncErrorHandler(assessmentNew));
 
 
 /* POST CREATE assessments index /assessments */
