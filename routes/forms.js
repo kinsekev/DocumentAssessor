@@ -17,10 +17,10 @@ router.post('/', asyncErrorHandler(formCreate));
 /* GET EDIT assessments index /assessments/:id/resources/:resource_id/forms/:form_id */
 router.get('/:form_id/edit', asyncErrorHandler(formEdit));
 
-/* PUT CREATE assessments index /assessments */
+/* PUT CREATE assessments index /assessments/:id/resources/:resource_id/forms/:form_id */
 router.put('/:form_id', asyncErrorHandler(formUpdate));
 
-/* DELETE assessments index /assessments/:id/resources/:resource_id/forms/:form_id */
+/* DELETE DESTROY form /assessments/:id/resources/:resource_id/forms/:form_id */
 router.delete('/:form_id', asyncErrorHandler(formDestroy));
 
 module.exports = router;

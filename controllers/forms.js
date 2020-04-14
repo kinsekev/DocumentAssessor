@@ -2,6 +2,7 @@ const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Form = require('../models/form');
 const User = require('../models/user');
+const mongoose = require('mongoose');
 
 module.exports = {
 
@@ -48,29 +49,29 @@ module.exports = {
         // redirect to the assessment page
         res.redirect(`/assessments/${req.params.id}`);
     },
-
     // destroy form
-    async destroyForm(req, res, next) {
-        res.send('You hit the delete route!');
-        // // find the resource by id
-        // let form = await Resource.findById(req.params.form_id);
-        // // get the link associated with the form
-        // let formLink = form.link;
-        // // delete the resource
-        // await form.remove();
-        // // find the resource by id
-        // let resource = await Resource.findById(req.params.resource_id);
-        // // create form object
-        // let formObj = { 
-        //     link : curLink,
-        // }
-        // // create form
-        // let newForm = await Form.create(formObj);
-        // // push form to the resource
-        // resource.forms.push(newForm);
-        // // save the resource
-        // resource.save();
-        // // redirect to the assessment page where the resource has been deleted
-        // res.redirect(`/assessments/${req.params.id}`);
+    async formDestroy(req, res, next) {
+        // find the resource by id
+        let resource = await Resource.findById(req.params.resource_id);
+        // remove the form from the resource.form array
+        resource.forms.pull(req.params.form_id);
+        // find the form by id
+        let form = await Form.findById(req.params.form_id);
+        // get the link by id
+        let formLink = form.link;
+        // delete the form by id
+        await Form.findByIdAndDelete(req.params.form_id);
+        // create new object form
+        let formObj = { 
+            link : formLink,
+        }
+        // create new form
+        let newForm = await Form.create(formObj);
+        // push new form to the resource
+        resource.forms.push(newForm);
+        // save the resource
+        resource.save();
+        // redirect to the assessment page
+        res.redirect(`/assessments/${req.params.id}`);
     }
 }

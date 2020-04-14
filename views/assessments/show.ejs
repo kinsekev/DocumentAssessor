@@ -30,9 +30,9 @@
                         <button>
                             <a href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>/edit">Edit Form</a>
                         </button>
-                        <!-- <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=DELETE" method="POST">
+                        <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=DELETE" method="POST">
                             <button>Delete Form</button>
-                        </form> -->
+                        </form>
                     <% } else { %>
                         <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
                             <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
