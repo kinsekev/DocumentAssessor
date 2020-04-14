@@ -8,11 +8,16 @@ module.exports = {
 
     // create form
     async formCreate(req, res, next) {
+        // find the assessment by id
+        let assessment = await Assessment.findById(req.params.id);
+        // start the assessment
+        assessment.started = true;
+        // save the assessment
+        assessment.save();
         // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
         // set resource started to true
         resource.started = true;
-
         // for each of the links create a form so the user can input
         for await (let curLink of resource.links) {
             let formObj = { 
@@ -31,9 +36,13 @@ module.exports = {
 
     // edit route
     async formEdit(req, res, next) {
+        // find the assessment by id
         let assessment = await Assessment.findById(req.params.id);
+        // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
+        // find the form by id
         let form = await Form.findById(req.params.form_id);
+        // render the forms/edit page passing assessment, resource and form
         res.render('forms/edit', { assessment, resource, form });
     },
 
@@ -49,6 +58,7 @@ module.exports = {
         // redirect to the assessment page
         res.redirect(`/assessments/${req.params.id}`);
     },
+    
     // destroy form
     async formDestroy(req, res, next) {
         // find the resource by id

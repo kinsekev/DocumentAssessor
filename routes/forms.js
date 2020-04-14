@@ -11,13 +11,13 @@ const {
 } = require('../controllers/forms');
 
 
-/* POST CREATE assessments index /assessments/:id/resources/:resource_id/forms */
+/* POST CREATE forms /assessments/:id/resources/:resource_id/forms */
 router.post('/', asyncErrorHandler(formCreate));
 
-/* GET EDIT assessments index /assessments/:id/resources/:resource_id/forms/:form_id */
+/* GET EDIT forms /assessments/:id/resources/:resource_id/forms/:form_id/edit */
 router.get('/:form_id/edit', asyncErrorHandler(formEdit));
 
-/* PUT CREATE assessments index /assessments/:id/resources/:resource_id/forms/:form_id */
+/* PUT UPDATE forms /assessments/:id/resources/:resource_id/forms/:form_id */
 router.put('/:form_id', asyncErrorHandler(formUpdate));
 
 /* DELETE DESTROY form /assessments/:id/resources/:resource_id/forms/:form_id */

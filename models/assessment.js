@@ -5,6 +5,7 @@ const assessmentSchema = new mongoose.Schema({
     description: String,
     instructions: String,
     numAssessmentsPerUser: Number,
+    started: Boolean,
     resources: [
         {
             type: mongoose.Schema.Types.ObjectId,

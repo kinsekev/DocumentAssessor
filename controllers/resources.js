@@ -9,30 +9,29 @@ module.exports = {
 
     // new resource
     async resourceNew(req, res, next) {
+        // find the assessment by id
         let assessment = await Assessment.findById(req.params.id);
+        // find the users by id
         let users = await User.find({});
+        // render the resources/new page passing in the assessment and users
         res.render('resources/new', { assessment, users });
     },
 
     // create resource
     async resourceCreate(req, res, next) {
-
         // find the assessment
         let assessment = await Assessment.findById(req.params.id);
-
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
         });
-
         // create an array of resources
         let resourceArr = [];
         for await (let line of rl) {
             resourceArr.push(line);
         }
-
         // variables
         let task = assessment.instructions;
         let user = req.body.user;
@@ -41,14 +40,13 @@ module.exports = {
             links: resourceArr.slice(0, resourceArr.length),
             started: false
         }
-
         // create the resource
         let resource = await Resource.create(resourceObj);
         // push resource onto the assessment
         assessment.resources.push(resource);
         // save the assessment
         assessment.save();
-
+        // check if a user was passed
         if(user) {
             // assign user if there is one passed
             let currentUser = await User.findOne({ username: user });
@@ -65,9 +63,13 @@ module.exports = {
     
     // edit resource route
     async resourceEdit(req, res, next) {
+        // find the assessment by id
         let assessment = await Assessment.findById(req.params.id);
+        // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
+        // find the users by id
         let users = await User.find({});
+        // render the resources/edit page, passing the assessment, resources and users
         res.render('resources/edit', { assessment, resource, users });
     },
 

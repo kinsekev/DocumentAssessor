@@ -17,19 +17,19 @@ const {
 } = require('../controllers/resources');
 
 
-/* GET NEW resource index /assessments/:id/resources/new */
+/* GET NEW resources /assessments/:id/resources/new */
 router.get('/new', asyncErrorHandler(resourceNew));
 
-/* POST CREATE resource index /assessments/:id/resources */
+/* POST CREATE resources /assessments/:id/resources */
 router.post('/', upload.single('file'), asyncErrorHandler(resourceCreate));
 
-/* GET EDIT assessments index /assessments/:id/resources/:resource_id/edit */
+/* GET EDIT resources /assessments/:id/resources/:resource_id/edit */
 router.get('/:resource_id/edit', asyncErrorHandler(resourceEdit));
 
-/* PUT UPDATE assessments index /assessments/:id/resources/:resource_id */
+/* PUT UPDATE resources /assessments/:id/resources/:resource_id */
 router.put('/:resource_id', asyncErrorHandler(resourceUpdate));
 
-/* DELETE assessments index /assessments/:id/resources/:resource_id/delete */
+/* DELETE DESTROY resources /assessments/:id/resources/:resource_id */
 router.delete('/:resource_id', asyncErrorHandler(resourceDestroy));
 
 module.exports = router;
