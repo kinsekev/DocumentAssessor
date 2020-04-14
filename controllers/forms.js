@@ -2,7 +2,6 @@ const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Form = require('../models/form');
 const User = require('../models/user');
-const mongoose = require('mongoose');
 
 module.exports = {
 
@@ -58,7 +57,7 @@ module.exports = {
         // redirect to the assessment page
         res.redirect(`/assessments/${req.params.id}`);
     },
-    
+
     // destroy form
     async formDestroy(req, res, next) {
         // find the resource by id

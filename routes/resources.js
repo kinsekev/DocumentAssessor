@@ -27,7 +27,7 @@ router.post('/', upload.single('file'), asyncErrorHandler(resourceCreate));
 router.get('/:resource_id/edit', asyncErrorHandler(resourceEdit));
 
 /* PUT UPDATE resources /assessments/:id/resources/:resource_id */
-router.put('/:resource_id', asyncErrorHandler(resourceUpdate));
+router.put('/:resource_id', upload.single('file'), asyncErrorHandler(resourceUpdate));
 
 /* DELETE DESTROY resources /assessments/:id/resources/:resource_id */
 router.delete('/:resource_id', asyncErrorHandler(resourceDestroy));
