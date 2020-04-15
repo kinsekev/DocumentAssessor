@@ -75,14 +75,30 @@ module.exports = {
 
     // update resource route
     async resourceUpdate(req, res, next) {
-
-        
-        updatedObj = {
-            task: req.body.resource.task
+        // define variables
+        let user = req.body.user;
+        let userObj;
+        let currentUser;
+        if(user) {
+            // find the user in the database
+            currentUser = await User.findOne( { username: user } );
+            // define user object
+            userObj = {
+                id: currentUser.id,
+                username: currentUser.username
+            }
+        } else {
+            // if assign no user is passed
+            userObj = undefined;
+        }
+        // define updated object
+        let updatedObj = {
+            task: req.body.resource.task,
+            user: userObj
         }
         // update resource from req.body.resource object passed through form
         let updatedResource = await Resource.findByIdAndUpdate(req.params.resource_id, updatedObj);
-
+        // if the user wants to edit the links
         if(req.body.deleteLinks && req.body.deleteLinks.length) {
             // read text file with resources on each line
             const fileStream = await fs.createReadStream(req.file.path);
@@ -107,28 +123,10 @@ module.exports = {
            for await(let link of linksArr) {
                resourceLinks.push(link);
            }
-
+           // add the new links to the resource
            updatedResource.links = resourceLinks;
+           // save the resource
            updatedResource.save();
-        }
-        
-        // define variables
-        let user = req.body.user;
-        let userObj;
-        let currentUser;
-        // if user is passed
-        if(user) {
-            // change of user on a resource
-            currentUser = await User.findOne( { username: user } );
-            userObj = {
-                id: currentUser.id,
-                username: currentUser.username
-            }
-            updatedResource.user = userObj;
-            updatedResource.save();
-        } else {
-            // unassign a user on a resource
-            await Resource.findByIdAndUpdate(req.params.resource_id, { user: undefined });
         }
         // redirect to the assessment page where the resource has been updated
         res.redirect(`/assessments/${req.params.id}`);
