@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const { 
-    asyncErrorHandler 
+    asyncErrorHandler,
+    isLoggedIn
 } = require('../middleware');
 const multer = require('multer');
 const upload = multer(
@@ -18,7 +19,7 @@ const {
 
 
 /* GET NEW resources /assessments/:id/resources/new */
-router.get('/new', asyncErrorHandler(resourceNew));
+router.get('/new', isLoggedIn, asyncErrorHandler(resourceNew));
 
 /* POST CREATE resources /assessments/:id/resources */
 router.post('/', upload.single('file'), asyncErrorHandler(resourceCreate));

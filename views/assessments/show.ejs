@@ -7,7 +7,7 @@
     <div><%= assessment.description %></div>
     <div><%= assessment.instructions %></div>
     <div><%= assessment.numAssessmentsPerUser %></div>
-    <% if(!assessment.started) { %>
+    <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !assessment.started) { %>
         <button>
             <a href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
         </button>

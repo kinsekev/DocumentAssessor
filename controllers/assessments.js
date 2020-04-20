@@ -24,6 +24,11 @@ module.exports = {
     
     // create assessment
     async assessmentCreate(req, res, next) {
+        // adding user
+        req.body.assessment.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
         // create the assessment
         let assessment = await Assessment.create(req.body.assessment);
         // set the assessment started to false
@@ -59,17 +64,14 @@ module.exports = {
             // save the assessment
             assessment.save();
         }
-
         // define users from input
         let users = req.body.users;
-        
         if(users) {
             // find all the resource ids and store in array
             let resourceIDs = [];
             assessment.resources.forEach(function(resource) {
                 resourceIDs.push(resource._id);
             });
-
             // handle multiple users passed through drop down list
             if(Array.isArray(users)) {
                 let index = 0;
@@ -127,7 +129,7 @@ module.exports = {
 
     // edit route
     async assessmentEdit(req, res, next) {
-        // find the assessment by id
+        // find the assessment in the database
         let assessment = await Assessment.findById(req.params.id);
         // find all the users in the database
         let users = await User.find({});
@@ -159,31 +161,31 @@ module.exports = {
         }
         // delete the assessment
         await assessment.remove();
-
+        // adding user
+        req.body.newAssess.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
         // create the assessment
         let newAssessment = await Assessment.create(req.body.newAssess);
         // set the assessment started to false
         newAssessment.started = false;
         // save assessment
         newAssessment.save();
-
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
         });
-
         // create an array of resources
         let resourceArr = [];
         for await (let line of rl) {
             resourceArr.push(line);
         }
-
         // create variables for assignment
         let task = newAssessment.instructions;
         let lastIndex = newAssessment.numAssessmentsPerUser;
-        
         // create a resource based on the number of assessment per user
         for (let i = 0; i < resourceArr.length; i += lastIndex) {
             // create resource object
@@ -199,17 +201,14 @@ module.exports = {
             // save the assessment
             newAssessment.save();
         }
-
         // assign users if researcher has added users in drop
         let users = req.body.users;
-        
         if(users) {
             // find all the resource ids and store in array
             let resourceIDs = [];
             newAssessment.resources.forEach(function(resource) {
                 resourceIDs.push(resource._id);
             });
-
             // handle multiple users passed through drop down list
             if(Array.isArray(users)) {
                 let index = 0;

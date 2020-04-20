@@ -27,7 +27,7 @@ module.exports = {
     // POST /login
     async postLogin(req, res, next) {
         passport.authenticate('local', {
-            successRedirect: '/',
+            successRedirect: '/assessments',
             failureRedirect: '/researchers/login'
         })(req, res, next);
     },
