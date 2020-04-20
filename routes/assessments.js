@@ -27,7 +27,7 @@ router.get('/', asyncErrorHandler(assessmentIndex));
 router.get('/new', isLoggedIn, asyncErrorHandler(assessmentNew));
 
 /* POST CREATE assessments /assessments */
-router.post('/', upload.single('file'), asyncErrorHandler(assessmentCreate));
+router.post('/', isLoggedIn, upload.single('file'), asyncErrorHandler(assessmentCreate));
 
 /* GET SHOW assessments /assessments/:id */
 router.get('/:id', asyncErrorHandler(assessmentShow));
