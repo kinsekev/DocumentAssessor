@@ -3,6 +3,7 @@
 
 <h1 class="text:center">Assessments Page!</h1>
 
+
 <a href="/assessments/new">Create Assessment</a>
 
 <% assessments.forEach(function(assessment) { %>
@@ -11,15 +12,15 @@
 
 <div id="accordion">
   <div class="card">
-    <div class="card-header" id="<%= assessment.id %>">
+    <div class="card-header" id="<%= r %>">
       <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#<%= r %>" aria-expanded="true" aria-controls="<%= assessment.title %>">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#<%= assessment.id %>" aria-expanded="true" aria-controls="<%= assessment.title %>">
           <%= assessment.title %>
         </button>
       </h5>
     </div>
 
-    <div id="<%=  r %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="<%=  assessment.id %>" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
             <h6><b>Description</b><h6>
                 <div><%= assessment.description %></div>
