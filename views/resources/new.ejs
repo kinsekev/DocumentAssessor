@@ -1,29 +1,46 @@
 <%- include('../partials/header') %>
 
-<h1>This is the resource new page!</h1>
 
-<form action="/assessments/<%= assessment._id %>/resources" method="POST" enctype="multipart/form-data">
-    <div>
-        <input type="text" name="resource[instructions]" value="<%= assessment.instructions %>" disabled>
+<div id="new_resource" >
+   
+</br>
+<div class="container" >
+    
+    <div id="resource-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
+        <div id="resource-column" class="col-md-6">
+            <div id="resource-box" class="col-md-12">
+                <h1 class="text-center">New Resource</h1>
+                    <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>/resources" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="instructions" class="text-black">Instructions:</label><br>
+                            <input type="text" class="form-control" name="resource[instructions]" value="<%= assessment.instructions %>" disabled>
+                        </div>
+                        <div>
+                            <label for="number_of_assessments" class="text-black">Number of assessments:</label><br>
+                            <input type="text" class="form-control" name="resource[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>" disabled>
+                        </div>
+                        <div>
+                            <label for="upload_new_resource" class="text-black">Upload New Resource:</label><br>
+                            <input type="file" name="file" accept=".txt" value="uploadFile" required/>
+                        </div>
+                        <div>
+                            <label class="text-black" for="user">Choose users:</label></br>
+                            <select class="form-control" name="user" id="user" size="5" multiple>
+                                <option value="">Assign No Users</option>
+                                <% users.forEach(function(user) { %>
+                                    <option value="<%= user.username %>"><%= user.username %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group" align = "center">
+                        </br>
+                            <button>Create Resource</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <input type="text" name="resource[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>" disabled>
-    </div>
-    <div>
-        <input type="file" name="file" accept=".txt" value="uploadFile"/>
-    </div>
-    <div>
-        <label for="user">Choose users:</label>
-        <select name="user" id="user" size="5" multiple>
-            <option value="">Assign No Users</option>
-            <% users.forEach(function(user) { %>
-                <option value="<%= user.username %>"><%= user.username %></option>
-            <% }); %>
-        </select>
-    </div>
-    <div>
-        <button>Create Resource</button>
-    </div>
-</form>
+</div>
 
 <%- include('../partials/footer') %>
