@@ -1,55 +1,55 @@
 <%- include('../partials/header') %>
 
 
-<div id="create_new" >
-        </br>
-        <div class="container" >
-            <div id="create-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
-                <div id="create-column" class="col-md-6">
-                    <div id="create-box" class="col-md-12">
-                        <form class="form card p-3 bg-light"  action="/assessments" method="POST" enctype="multipart/form-data">
-                            <h3 class="text-center text-black">New Assesment</h3>
-                            <div class="form-group">
-                                <label for="Title" class="text-black">Title:</label><br>
-                                <input type="text" name="assessment[title]" placeholder="Title" id="Title" class="form-control" required>
+    <div id="create_new" >
+            </br>
+            <div class="container" >
+                <div id="create-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
+                    <div id="create-column" class="col-md-6">
+                        <div id="create-box" class="col-md-12">
+                            <form class="form card p-3 bg-light"  action="/assessments" method="POST" enctype="multipart/form-data">
+                                <h3 class="text-center text-black">New Assesment</h3>
+                                <div class="form-group">
+                                    <label for="Title" class="text-black">Title:</label><br>
+                                    <input type="text" name="assessment[title]" placeholder="Title" id="Title" class="form-control" required>
+                                
+                                </div>
+                                <div class="form-group">
+                                    <label for="description" class="text-black">Description:</label><br>
+                                    <input type="text" name="assessment[description]" placeholder="Description" class="form-control" required >
+                                <div class="form-group">
+                                    <label for="instruction" class="text-black">Instruction:</label><br>
+                                    <input type="text" name="assessment[instructions]" placeholder="Instruction" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Number of Users" class="text-black">Number of user per assessment:</label><br>
+                                    <input type="number" name="assessment[numAssessmentsPerUser]" placeholder="Number of users" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="upload file" class="text-black">Upload File:</label><br>
+                                    <div> <input type="file" name="file" accept=".txt" value="Upload a File" class="form-control"/>
+                                    </div>
+                                
+                                    </div>
+                                <div class="form-group">
+                                    <label for="users" class="text-black" >Choose users:</label>    
+                                    <select name="users" id="users" size="5" multiple class="form-control">
+                                        <option value="">Assign No Users</option>
+                                        <% users.forEach(function(user) { %>
+                                            <option value="<%= user.username %>"><%= user.username %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
                             
-                            </div>
-                            <div class="form-group">
-                                <label for="description" class="text-black">Description:</label><br>
-                                <input type="text" name="assessment[description]" placeholder="Description" class="form-control" required >
-                              <div class="form-group">
-                                <label for="instruction" class="text-black">Instruction:</label><br>
-                                <input type="text" name="assessment[instructions]" placeholder="Instruction" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="Number of Users" class="text-black">Number of user per assessment:</label><br>
-                                <input type="number" name="assessment[numAssessmentsPerUser]" placeholder="Number of users" class="form-control" required>
-                            </div>
-                              <div class="form-group">
-                                <label for="upload file" class="text-black">Upload File:</label><br>
-                                <div> <input type="file" name="file" accept=".txt" value="Upload a File" class="form-control"/>
+                                <div align="center" class="form-group">
+                                
+                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="Create assessment">
+                                    
                                 </div>
-                               
-                                </div>
-                            <div class="form-group">
-                                <label for="users" class="text-black" >Choose users:</label>    
-                                <select name="users" id="users" size="5" multiple class="form-control">
-                                    <option value="">Assign No Users</option>
-                                    <% users.forEach(function(user) { %>
-                                        <option value="<%= user.username %>"><%= user.username %></option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                           
-                            <div align="center" class="form-group">
-                               
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Create assessment">
-                                 
-                            </div>
-                           
-                        </form>
+                            
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>

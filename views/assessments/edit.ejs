@@ -1,38 +1,53 @@
 <%- include('../partials/header') %>
 
-<h1>this is the update form</h1>
 
-<form action="/assessments/<%= assessment._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <h3>New Assesment</h3>
-    <div>
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="newAssess[title]" value="<%= assessment.title %>">
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="newAssess[description]" value="<%= assessment.description %>">
-    <div>
-        <label for="instruction">Instruction:</label>
-        <input type="text" id="instruction" name="newAssess[instructions]" value="<%= assessment.instructions %>">
-    </div>
-    <div>
-        <label for="numUsers">Number of user per assessment:</label>
-        <input type="text" id="numUsers" name="newAssess[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>">
-    </div>
-    <div>
-        <label for="uploadFile">Upload File:</label>
-        <input type="file" id="uploadFile" name="file" accept=".txt"/>
-    </div>
-    <div>
-        <label for="users">Choose users:</label>
-        <select name="users" id="users" size="5" multiple>
-            <option value="">Assign No Users</option>
-            <% users.forEach(function(user) { %>
-                <option value="<%= user.username %>"><%= user.username %></option>
-            <% }); %>
-        </select>
-    </div>
-    <button>Edit Assessment</button>
-</form>
+<div class="container" >
+    
+    <div id="resource-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
+        <div id="resource-column" class="col-md-6">
+            <div id="resource-box" class="col-md-12">
+                </div>
+            </br>
+              
 
-<%- include('../partials/footer') %>
+                    <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                        <h3 align="center">Edit Assessment</h3>
+                        <div class="form-group">
+                            <label  for="title">Title:</label>
+                            <input class="form-control" type="text" id="title" name="newAssess[title]" value="<%= assessment.title %>">
+                        </div>
+                        <div class="form-group" >
+                            <label for="description">Description:</label>
+                            <input class="form-control"type="text" id="description" name="newAssess[description]" value="<%= assessment.description %>">
+                        <div>
+                            <label class="form-group"for="instruction">Instruction:</label>
+                            <input class="form-control"type="text" id="instruction" name="newAssess[instructions]" value="<%= assessment.instructions %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="numUsers">Number of user per assessment:</label>
+                            <input class="form-control" type="number" id="numUsers" name="newAssess[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="uploadFile">Upload File:</label>
+                            <input class="form-control" type="file" id="uploadFile" name="file" accept=".txt"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="users">Choose users:</label>
+                            <select name="users" id="users" size="5" class="form-control"  multiple>
+                                <option value="">Assign No Users</option>
+                                <% users.forEach(function(user) { %>
+                                    <option value="<%= user.username %>"><%= user.username %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <div align ="center">
+                            <button>Update Assessment</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

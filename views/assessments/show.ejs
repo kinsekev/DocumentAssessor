@@ -1,79 +1,145 @@
-    <%- include('../partials/header') %>
+<%- include('../partials/header') %>
+<div class="container">
 
-<h1>This Is The Show Page</h1>
-
-<div>
-    <h2><%= assessment.title %></h2>
-    <div><%= assessment.description %></div>
-    <div><%= assessment.instructions %></div>
-    <div><%= assessment.numAssessmentsPerUser %></div>
-    <% if(!assessment.started) { %>
-        <button>
-            <a href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
-        </button>
-        <form action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
-            <input type="submit" value="Delete Assessment">
-        </form>
-    <% } %>
-<div>
-<div>
-    <button>
-        <a href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
-    </button>
-</div>
-<div>
-    <% assessment.resources.forEach(function(resource) { %>
-        <div>
-            <h4><%= resource.task %></h4>
-            <% if(resource.user.username) { %>
-                <h4><%= resource.user.username %></h4>
-            <% } else { %>
-                <h4>No User Assigned Yet</h4>
-            <% } %>
-            <% if(resource.started) { %>
-                <% resource.forms.forEach(function(form) { %>
-                    <a href="#"><%= form.link %></a>
-                    <% if(form.rating) { %>
-                        <li>Rating: <%= form.rating %></li>
-                        <li>Text Answer: <%= form.text %></li>
-                        <button>
-                            <a href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>/edit">Edit Form</a>
-                        </button>
-                        <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=DELETE" method="POST">
-                            <button>Delete Form</button>
-                        </form>
-                    <% } else { %>
-                        <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
-                            <textarea name="ratingText" id="ratingText" cols="50" rows="2"></textarea>
-                            <select name="rating" id="rating">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                            <button type="submit">Submit</button>
-                        </form>
+    <div>
+        </br>
+        <!-- <h1>This Is The Show Page <a href="#" class="btn btn-primary">Go somewhere</a></h1> -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><%= assessment.title %></h2>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title"><b>Description:</b></br> <h5><%= assessment.description %></h5> </h4>
+                    <h4 class="card-text"><b>Instructions:</b></br> <h5><%= assessment.instructions %></h5></h4>
+                    <h4 class="card-text"><b>Number of users per assessment:</b></br> <h5><%= assessment.numAssessmentsPerUser %></h5></h4>
+                            
+                    <% if(!assessment.started) { %>
+                            
+                        <form action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
+                            <button class=" form-group " >
+                                <a style="color: black" href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
+                            </button>
+                            <input class ="form-group" type="submit" value="Delete Assessment">
+                    
                     <% } %>
-                <% }); %>
+                            <button class="form-group">
+                                <a style="color: black" href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
+                            </button>
+                        </form>
+       </br>
+                </div>
+            </div>
+
+    </div>
+
+    <div>
+         <% assessment.resources.forEach(function(resource) { %>
+    </br>
+            <div class="card">
+            
+                <div class="card-header"><h4><%= resource.task %></h4></div>
+                    
+                    <% if(resource.user.username) { %>
+                        <div class="card-title"><h5>&nbsp;&nbsp; User: <%= resource.user.username %></h4></div>
+                    <% } else { %>
+                        <div class="card-title"><h5>&nbsp;&nbsp; No User Assigned Yet</h4></div>
+                    <% } %>
+            
+                    <% if(resource.started) { %>
+                        <% resource.forms.forEach(function(form) { %>
+                        <div class="card-text"><h5>&nbsp;&nbsp; Link to review: </h5>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#"><%= form.link %></a></br></div>
+                        <% if(form.rating) { %>
+                             <div class="container">
+                                </br>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                        Rating: 
+                                        <span class="badge badge-primary badge-pill"><%= form.rating %></span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Text Answer: <%= form.text %>
+                                        </li>
+                                            </br>
+                                    </ul>
+                            </div>
+                        
+                            <div class="container">
+                                <form  action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=DELETE" method="POST">
+                                    <button class="form-group">Delete Form</button>
+                                    <button class="form-group">
+                                        <a style="color: black" href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>/edit">Edit Form</a>
+                                    </button>
+                                </form>
+                            </div>
+                       <% } else { %>
+                         <div class="col-sm-8">
+                         </br>
+                                <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
+                                   <label class="form-group">Rating</label>
+                                      <div class="col-sm-12">
+                                        <select class="form-control" name="rating" id="rating">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    </br>
+                                    <label class="form-group">Review </label>
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control" name="ratingText" id="ratingText" cols="100" rows="3"></textarea>
+                                    </div>
+                                    </br>
+                                <div align="right" class="col-sm-12">
+                                    <button  class="btn btn-primary mb-2" type="submit">Submit</button>
+                                </div>
+                            </br>
+                                </div>
+        
+                                
+                                </form>
+                         </div>
+                        </br>
+                    <% } %>
+                <% }); %>   
+        
             <% } else { %>
                 <% resource.links.forEach(function(link) { %>
+                <div class="card-text">
+                    <ul >
                     <li><%= link %></li>
+                   </ul>
+                </div>
+                
                 <% }); %>
+                <div style="display: flex;">
                 <% if(resource.user.username) { %>
-                    <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms" method="POST">
-                        <button>Start Resource</button>
-                    </form>
+                    
+                   <div class="card-text">
+                    <form  style="margin-left: 20px;" class="form" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms" method="POST">
+                        <button class="form-group">Start Resource</button>
+                    </form> 
+                   </div>
+               
                 <% } %>
                 <% if(!resource.started) { %>
-                    <button>
-                        <a href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/edit">Edit Resource</a>
-                    </button>
-                    <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=DELETE" method="POST">
-                        <button>Delete Resource</button>
-                    </form>
+
+                    <div class="card-text">
+                        <form class="form" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=DELETE" method="POST">
+                            <button style="margin-left: 7px;" class="form-group">Delete Resource</button>
+                            <button class="form-group">
+                                <a href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/edit">Edit Resource</a>
+                            </button>
+                        </form>
+                    </div>
+               
+                </div>
                 <% } %>
             <% } %>
-        </div>
+        
     <% }); %>
+        </div>
+</div>
+
 </div>

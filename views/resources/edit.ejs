@@ -1,35 +1,55 @@
 <%- include('../partials/header') %>
 
-<h1>This is the resource new page!</h1>
-
-<form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <div>
-        <input type="text" name="resource[task]" value="<%= resource.task %>">
+<div id="create_new" >
+        </br>
+        <div class="container" >
+            <div id="create-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
+                <div id="create-column" class="col-md-6">
+                    <div id="create-box" class="col-md-12">
+                    <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                            <h3 class="text-center text-black">New Resource</h3>
+                            <div class="form-group">
+                                <label for="Title" class="text-black">New Task:</label><br>
+                                <input type="text" class="form-control" name="resource[task]" value="<%= resource.task %>">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="file" id="linkUpload" name="file" accept=".txt" value="uploadFile"/>
+                            </div>
+                            <div class="form-group">
+                                <% resource.links.forEach(function(link, index) { %>
+                                    <div >
+                                    <label style=" border-radius: 0.25em" class="form-group" for="link<%= index %>">Delete the link below?   Yes    
+                                        <input type="checkbox" name="deleteLinks[]" id="link<%= index %>" value="<%= link %>">
+                                    </label>
+                                </div>
+                                    <li><%= link %></li>
+                            </br>
+                                    
+                                    
+                                <% }); %>
+                            </div>
+                            <div class="form-group">
+                                <label for="user">Choose users:</label>
+                                <select class="form-control" name="user" id="user" size="5" multiple>
+                                    <option value="">Assign No Users</option>
+                                    <% users.forEach(function(user) { %>
+                                        <% if(resource.user.username && user.username === resource.user.username) { %>
+                                            <option value="<%= user.username %>" selected><%= user.username %></option>
+                                        <% } else { %>
+                                            <option value="<%= user.username %>"><%= user.username %></option>
+                                        <% } %>
+                                    <% }); %>
+                                </select>
+                            </div>
+                         
+                            
+                            <div align="center" class="form-group" >
+                                <button class="btn btn-info btn-md">Edit Resource</button>
+                            </div>
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <input type="file" id="linkUpload" name="file" accept=".txt" value="uploadFile"/>
-        <% resource.links.forEach(function(link, index) { %>
-            <li><%= link %></li>
-            <label for="link<%= index %>">Delete?</label>
-            <input type="checkbox" name="deleteLinks[]" id="link<%= index %>" value="<%= link %>">
-        <% }); %>
-    </div>
-    <div>
-        <label for="user">Choose users:</label>
-        <select name="user" id="user" size="5" multiple>
-            <option value="">Assign No Users</option>
-            <% users.forEach(function(user) { %>
-                <% if(resource.user.username && user.username === resource.user.username) { %>
-                    <option value="<%= user.username %>" selected><%= user.username %></option>
-                <% } else { %>
-                    <option value="<%= user.username %>"><%= user.username %></option>
-                <% } %>
-            <% }); %>
-        </select>
-    </div>
-    <div>
-        <button>Edit Resource</button>
-    </div>
-</form>
-
-<%- include('../partials/footer') %>
