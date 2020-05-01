@@ -1,0 +1,39 @@
+
+.jumbotron {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.card {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#button-div {
+    margin-top: 15px;
+}
+
+.btn-warning {
+    margin-right: 10px;
+}
+
+.page-footer {
+    margin-top: 150px;
+	width: 100%;
+  	background-color: black;
+    color: white;
+    text-align: center"
+}
+
+label {
+    display: inline-block;
+}
+
+#create-box {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.inline-header {
+    display: inline-block;
+}

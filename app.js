@@ -69,7 +69,7 @@ app.use('/assessments/:id/resources', resourcesRouter);
 app.use('/assessments/:id/resources/:resource_id/forms', formRouter);
 
 // mock users
-//seedUserDB();
+seedUserDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
