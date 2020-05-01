@@ -8,7 +8,8 @@ const upload = multer(
 const { 
     asyncErrorHandler,
     isLoggedIn,
-    checkAssessmentOwnership
+    checkAssessmentOwnership,
+    checkAssessmentStarted
 } = require('../middleware');
 const {
     assessmentIndex,
@@ -33,12 +34,12 @@ router.post('/', upload.single('file'), isLoggedIn, asyncErrorHandler(assessment
 router.get('/:id', asyncErrorHandler(assessmentShow));
 
 /* GET EDIT assessments /assessments/:id/edit */
-router.get('/:id/edit', checkAssessmentOwnership, asyncErrorHandler(assessmentEdit));
+router.get('/:id/edit', checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentEdit));
 
 /* PUT UPDATE assessments /assessments/:id */
-router.put('/:id', upload.single('file'), checkAssessmentOwnership, asyncErrorHandler(assessmentUpdate));
+router.put('/:id', upload.single('file'), checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentUpdate));
 
 /* DELETE DESTROY assessments  /assessments/:id */
-router.delete('/:id', checkAssessmentOwnership, asyncErrorHandler(assessmentDestroy));
+router.delete('/:id', checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentDestroy));
 
 module.exports = router;
