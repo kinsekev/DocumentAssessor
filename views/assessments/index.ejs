@@ -8,20 +8,21 @@
       <p>Get started by creating your own assessment by clicking the button below!</p>
       <a class="btn btn-primary" href="/assessments/new">Create Assessment</a>
     </div>
-    <% assessments.forEach(function(assessment) { %>
+    <% assessments.forEach(function(assessment, i) { %>
       <div class="card">
-          <!-- <div class="card-header">
-            <h5><%= assessment.title %></h5>
-          </div> -->
+          <div class="card-header">
+            <h5>Assesstment: <%= i + 1 %></h5>
+          </div>
           <div class="card-body">
             <div>
                 <p class="card-text"><b>Description: </b><%= assessment.description %></p>
             </div>
             <div>
-                <b>Instructions for Resource: </b><%= assessment.instructions %>
+               <p class="card-text"><b>Instructions for Resource: </b><%= assessment.instructions %></p>
+              
             </div>
             <div>
-                <b>Number of Links per User: </b><%= assessment.numAssessmentsPerUser %>
+                <p class="card-text"><b>Number of Links per User: </b><%= assessment.numAssessmentsPerUser %></p>
             </div>
             <div>
                 <a href="/assessments/<%= assessment.id %>" class="btn btn-primary">View More</a>
