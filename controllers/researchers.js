@@ -14,7 +14,7 @@ module.exports = {
         });
         await Researcher.register(newResearcher, req.body.password);
         passport.authenticate('local', {
-            successRedirect: '/',
+            successRedirect: '/assessments',
             failureRedirect: '/researchers/login'
         })(req, res, next);
     },

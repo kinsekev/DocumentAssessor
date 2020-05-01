@@ -15,7 +15,7 @@
             <div>
                 <p class="card-text"><b>Number of Assessments per User: </b><%= assessment.numAssessmentsPerUser %></p>
             </div>
-            <% if(!assessment.started) { %>
+            <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !assessment.started) { %>
                 <div id="button-div">
                     <form class="delete-form" action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
                         <input class="btn btn-danger float-right" type="submit" value="Delete Assessment">

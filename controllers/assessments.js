@@ -24,6 +24,11 @@ module.exports = {
     
     // create assessment
     async assessmentCreate(req, res, next) {
+        // adding user
+        req.body.assessment.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
         // create the assessment
         let assessment = await Assessment.create(req.body.assessment);
         // set the assessment started to false
@@ -159,31 +164,31 @@ module.exports = {
         }
         // delete the assessment
         await assessment.remove();
-
+        // adding user
+        req.body.newAssess.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
         // create the assessment
         let newAssessment = await Assessment.create(req.body.newAssess);
         // set the assessment started to false
         newAssessment.started = false;
         // save assessment
         newAssessment.save();
-
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
         });
-
         // create an array of resources
         let resourceArr = [];
         for await (let line of rl) {
             resourceArr.push(line);
         }
-
         // create variables for assignment
         let task = newAssessment.instructions;
         let lastIndex = newAssessment.numAssessmentsPerUser;
-        
         // create a resource based on the number of assessment per user
         for (let i = 0; i < resourceArr.length; i += lastIndex) {
             // create resource object

@@ -6,7 +6,9 @@ const upload = multer(
         'dest': 'uploads/'
     });
 const { 
-    asyncErrorHandler 
+    asyncErrorHandler,
+    isLoggedIn,
+    checkAssessmentOwnership
 } = require('../middleware');
 const {
     assessmentIndex,
@@ -22,21 +24,21 @@ const {
 router.get('/', asyncErrorHandler(assessmentIndex));
 
 /* GET NEW assessments /assessments/new */
-router.get('/new', asyncErrorHandler(assessmentNew));
+router.get('/new', isLoggedIn, asyncErrorHandler(assessmentNew));
 
 /* POST CREATE assessments /assessments */
-router.post('/', upload.single('file'), asyncErrorHandler(assessmentCreate));
+router.post('/', upload.single('file'), isLoggedIn, asyncErrorHandler(assessmentCreate));
 
 /* GET SHOW assessments /assessments/:id */
 router.get('/:id', asyncErrorHandler(assessmentShow));
 
 /* GET EDIT assessments /assessments/:id/edit */
-router.get('/:id/edit', asyncErrorHandler(assessmentEdit));
+router.get('/:id/edit', checkAssessmentOwnership, asyncErrorHandler(assessmentEdit));
 
 /* PUT UPDATE assessments /assessments/:id */
-router.put('/:id', upload.single('file'), asyncErrorHandler(assessmentUpdate));
+router.put('/:id', upload.single('file'), checkAssessmentOwnership, asyncErrorHandler(assessmentUpdate));
 
 /* DELETE DESTROY assessments  /assessments/:id */
-router.delete('/:id', asyncErrorHandler(assessmentDestroy));
+router.delete('/:id', checkAssessmentOwnership, asyncErrorHandler(assessmentDestroy));
 
 module.exports = router;

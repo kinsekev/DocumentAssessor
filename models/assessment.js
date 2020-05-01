@@ -11,7 +11,14 @@ const assessmentSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Resource'
         }
-    ]
+    ],
+    researcher: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Researcher'
+        },
+        username: String
+    }
 });
 
 module.exports = mongoose.model('Assessment', assessmentSchema);
