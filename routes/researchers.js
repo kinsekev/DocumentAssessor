@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { 
-  asyncErrorHandler 
+  asyncErrorHandler,
+  checkIfResearcherExists
 } = require('../middleware');
 const {
   getRegister,
@@ -12,18 +13,21 @@ const {
 } = require('../controllers/researchers');
 
 /* GET /register */
-router.get('/register', asyncErrorHandler(getRegister));
+router.get('/register', getRegister);
 
 /* POST /register */
-router.post('/register', asyncErrorHandler(postRegister));
+router.post('/register', 
+    asyncErrorHandler(checkIfResearcherExists), 
+    postRegister
+);
 
 /* GET /login */
-router.get('/login', asyncErrorHandler(getLogin));
+router.get('/login', getLogin);
 
 /* POST /login */
-router.post('/login', asyncErrorHandler(postLogin));
+router.post('/login', postLogin);
 
 /* GET /logout */
-router.get('/logout', asyncErrorHandler(getLogout));
+router.get('/logout', getLogout);
 
 module.exports = router;

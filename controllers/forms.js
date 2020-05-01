@@ -54,6 +54,8 @@ module.exports = {
         }
         // update the resource with the assessment from the user
         await Form.findByIdAndUpdate(req.params.form_id, formObj);
+        // add flash message
+        req.flash('success', 'Successfully submitted the form');
         // redirect to the assessment page
         res.redirect(`/assessments/${req.params.id}`);
     },
@@ -80,6 +82,8 @@ module.exports = {
         resource.forms.push(newForm);
         // save the resource
         resource.save();
+        // add flash message
+        req.flash('success', 'Successfully restarted the form');
         // redirect to the assessment page
         res.redirect(`/assessments/${req.params.id}`);
     }

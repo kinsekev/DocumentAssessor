@@ -113,6 +113,8 @@ module.exports = {
                 resource.save();
             }
         }
+        // success flash message
+        req.flash('success', 'Successfully added assessment')
         // redirect to the assessments page of that id
         res.redirect(`/assessments/${assessment.id}`);
     },
@@ -253,6 +255,8 @@ module.exports = {
                 resource.save();
             }
         }
+        // add flash message
+        req.flash('success', 'Successfully updated the assessment');
         // redirect to the assessments page of that id
         res.redirect(`/assessments/${newAssessment.id}`);
     },
@@ -282,6 +286,8 @@ module.exports = {
         }
         // delete the assessment
         await assessment.remove();
+        // flash message
+        req.flash('success', 'Successfully deleted the assessment');
         // redirect to the main assessments page
         res.redirect('/assessments');
     }

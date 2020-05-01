@@ -57,6 +57,8 @@ module.exports = {
             resource.user = userObj;
             resource.save();
         }
+        // add flash message
+        req.flash('success', 'Successfully added new resource');
         // redirect to the assessment
         res.redirect(`/assessments/${assessment.id}`);
     },
@@ -128,6 +130,8 @@ module.exports = {
            // save the resource
            updatedResource.save();
         }
+        // add flash message
+        req.flash('success', 'Successfully updated the resource');
         // redirect to the assessment page where the resource has been updated
         res.redirect(`/assessments/${req.params.id}`);
     },
@@ -138,6 +142,8 @@ module.exports = {
         let resource = await Resource.findById(req.params.resource_id);
         // delete the resource
         await resource.remove();
+        // add flash message
+        req.flash('success', 'Successfully deleted the resource');
         // redirect to the assessment page where the resource has been deleted
         res.redirect(`/assessments/${req.params.id}`);
     }

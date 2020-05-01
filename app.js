@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const session = require('express-session');
+const flash = require('connect-flash');
 const Researcher = require('./models/researcher');
 const methodOverride = require('method-override');
 const seedUserDB = require('./seeds/users');
@@ -41,6 +42,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+app.use(flash());
 
 // configure passport and sessions
 app.use(session({
@@ -58,6 +60,8 @@ passport.deserializeUser(Researcher.deserializeUser());
 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
   next();
 });
 

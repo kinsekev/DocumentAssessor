@@ -25,21 +25,44 @@ const {
 router.get('/', asyncErrorHandler(assessmentIndex));
 
 /* GET NEW assessments /assessments/new */
-router.get('/new', isLoggedIn, asyncErrorHandler(assessmentNew));
+router.get('/new', 
+    isLoggedIn, 
+    asyncErrorHandler(assessmentNew)
+);
 
 /* POST CREATE assessments /assessments */
-router.post('/', upload.single('file'), isLoggedIn, asyncErrorHandler(assessmentCreate));
+router.post('/', 
+    isLoggedIn, 
+    upload.single('file'), 
+    asyncErrorHandler(assessmentCreate)
+);
 
 /* GET SHOW assessments /assessments/:id */
 router.get('/:id', asyncErrorHandler(assessmentShow));
 
 /* GET EDIT assessments /assessments/:id/edit */
-router.get('/:id/edit', checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentEdit));
+router.get('/:id/edit',
+    isLoggedIn,
+    asyncErrorHandler(checkAssessmentOwnership), 
+    asyncErrorHandler(checkAssessmentStarted), 
+    asyncErrorHandler(assessmentEdit)
+);
 
 /* PUT UPDATE assessments /assessments/:id */
-router.put('/:id', upload.single('file'), checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentUpdate));
+router.put('/:id', 
+    isLoggedIn,
+    upload.single('file'),
+    asyncErrorHandler(checkAssessmentOwnership), 
+    asyncErrorHandler(checkAssessmentStarted), 
+    asyncErrorHandler(assessmentUpdate)
+);
 
 /* DELETE DESTROY assessments  /assessments/:id */
-router.delete('/:id', checkAssessmentOwnership, checkAssessmentStarted, asyncErrorHandler(assessmentDestroy));
+router.delete('/:id',
+    isLoggedIn,
+    asyncErrorHandler(checkAssessmentOwnership), 
+    asyncErrorHandler(checkAssessmentStarted),
+    asyncErrorHandler(assessmentDestroy)
+);
 
 module.exports = router;

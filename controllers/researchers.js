@@ -3,38 +3,40 @@ const passport = require('passport');
 
 module.exports = {
     // GET /register
-    async getRegister(req, res, next) {
+    getRegister(req, res, next) {
         res.render('researchers/register');
     },
-
     // POST /register
-    async postRegister(req, res, next) {
+    postRegister(req, res, next) {
         const newResearcher = new Researcher({
             username: req.body.username
         });
-        await Researcher.register(newResearcher, req.body.password);
+        Researcher.register(newResearcher, req.body.password, function(err, researcher) {
+            if(err) {
+                return res.render('researchers/register', {'error': err.message});
+            } else {
+                passport.authenticate('local')(req, next, function() {
+                    req.flash('success', 'Welcome to Document Assessor ' + req.body.username);
+                    res.redirect('/assessments');
+                });
+            }
+        });
+    },
+    // GET /login
+    getLogin(req, res, next) {
+        res.render('researchers/login');
+    },
+    // POST /login
+    postLogin(req, res, next) {
         passport.authenticate('local', {
             successRedirect: '/assessments',
             failureRedirect: '/researchers/login'
         })(req, res, next);
     },
-
-    // GET /login
-    async getLogin(req, res, next) {
-        res.render('researchers/login');
-    },
-
-    // POST /login
-    async postLogin(req, res, next) {
-        passport.authenticate('local', {
-            successRedirect: '/',
-            failureRedirect: '/researchers/login'
-        })(req, res, next);
-    },
-
     // GET /logout
-    async getLogout(req, res, next) {
+    getLogout(req, res, next) {
         req.logout();
+        req.flash('success', 'Logged you out!');
         res.redirect('/assessments');
     }
 }
