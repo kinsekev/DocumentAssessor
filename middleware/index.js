@@ -1,6 +1,9 @@
 const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Reseacher = require('../models/researcher');
+const User = require('../models/user');
+const fs = require('fs');
+const readline = require('readline');
 
 module.exports = {
 	asyncErrorHandler: (fn) =>
@@ -65,5 +68,146 @@ module.exports = {
 			req.flash('error', "That resource doesn't exist");
 			return res.redirect('back');
 		}
-	} 
+	},
+	checkAssessmentHasCorrectLinks: async (req, res, next) => {
+		// find all the users in the database
+		let users = await User.find({});
+		// read text file with resources on each line
+        const fileStream = await fs.createReadStream(req.file.path);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // create an array of resources
+        let resourceArr = [];
+        for await (let line of rl) {
+            resourceArr.push(line);
+		}
+		// variables
+		let numLinks = resourceArr.length;
+		let numLinksPerUser = req.body.assessment.numAssessmentsPerUser;
+		if (numLinks % numLinksPerUser !== 0) {
+			return res.render('assessments/new', 
+				{ 
+					users, 'error': "The number of links doesn't evenly divide amoung users" 
+				});
+		}
+		next();
+	},
+	checkAssessmentCorrectUsers: async (req, res, next) => {
+		// find all the users in the database
+		let users = await User.find({});
+		// read text file with resources on each line
+        const fileStream = await fs.createReadStream(req.file.path);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // create an array of resources
+        let resourceArr = [];
+        for await (let line of rl) {
+            resourceArr.push(line);
+		}
+		// define users from input
+		let usersForm = req.body.users;
+		// define links per user
+		let linksPerUser = req.body.assessment.numAssessmentsPerUser;
+		// total users allowed
+		let totalUsers = resourceArr.length / linksPerUser;
+		// numUsers
+		let numUsers;
+
+		if(usersForm && usersForm.length > 0) {
+			if(Array.isArray(usersForm)) {
+				numUsers = usersForm.length;
+				if (numUsers > totalUsers) {
+					return res.render('assessments/new', 
+						{ 
+							users, 'error':  'There are too many users assigned'
+						});
+				} else {
+					next();
+				}
+			} else {
+				if (1 > totalUsers) {
+					req.flash('error', 'There are too many users assigned');
+					return res.render('assessments/new', 
+						{ 
+							users, 'error':  'There are too many users assigned'
+						});
+				} else {
+					next();
+				}
+			}
+		} else {
+			next();
+		}
+	},
+	checkAssessmentEditHasCorrectLinks: async (req, res, next) => {
+		// find all the users in the database
+		let users = await User.find({});
+		// read text file with resources on each line
+        const fileStream = await fs.createReadStream(req.file.path);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // create an array of resources
+        let resourceArr = [];
+        for await (let line of rl) {
+            resourceArr.push(line);
+		}
+		// variables
+		let numLinks = resourceArr.length;
+		let numLinksPerUser = req.body.newAssess.numAssessmentsPerUser;
+		if (numLinks % numLinksPerUser !== 0) {
+			req.flash('error', "The number of links doesn't evenly divide amoung users")
+			return res.redirect(`/assessments/${req.params.id}/edit`);
+		}
+		next();
+	},
+	checkAssessmentEditCorrectUsers: async (req, res, next) => {
+		// find all the users in the database
+		let users = await User.find({});
+		// read text file with resources on each line
+        const fileStream = await fs.createReadStream(req.file.path);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // create an array of resources
+        let resourceArr = [];
+        for await (let line of rl) {
+            resourceArr.push(line);
+		}
+		// define users from input
+		let usersForm = req.body.users;
+		// define links per user
+		let linksPerUser = req.body.newAssess.numAssessmentsPerUser;
+		// total users allowed
+		let totalUsers = resourceArr.length / linksPerUser;
+		// numUsers
+		let numUsers;
+
+		if(usersForm && usersForm.length > 0) {
+			if(Array.isArray(usersForm)) {
+				numUsers = usersForm.length;
+				if (numUsers > totalUsers) {
+					req.flash('error', 'There are too many users assigned');
+					return res.redirect(`/assessments/${req.params.id}/edit`);
+				} else {
+					next();
+				}
+			} else {
+				if (1 > totalUsers) {
+					req.flash('error', 'There are too many users assigned');
+					return res.redirect(`/assessments/${req.params.id}/edit`);
+				} else {
+					next();
+				}
+			}
+		} else {
+			next();
+		}
+	}
 }

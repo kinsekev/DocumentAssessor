@@ -287,7 +287,7 @@ module.exports = {
         // delete the assessment
         await assessment.remove();
         // flash message
-        req.flash('success', 'Successfully deleted the assessment');
+        req.flash('success', 'Successfully delete the assessment');
         // redirect to the main assessments page
         res.redirect('/assessments');
     }

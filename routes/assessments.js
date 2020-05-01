@@ -9,7 +9,11 @@ const {
     asyncErrorHandler,
     isLoggedIn,
     checkAssessmentOwnership,
-    checkAssessmentStarted
+    checkAssessmentStarted,
+    checkAssessmentHasCorrectLinks,
+    checkAssessmentCorrectUsers,
+    checkAssessmentEditHasCorrectLinks,
+    checkAssessmentEditCorrectUsers
 } = require('../middleware');
 const {
     assessmentIndex,
@@ -33,7 +37,9 @@ router.get('/new',
 /* POST CREATE assessments /assessments */
 router.post('/', 
     isLoggedIn, 
-    upload.single('file'), 
+    upload.single('file'),
+    asyncErrorHandler(checkAssessmentHasCorrectLinks),
+    asyncErrorHandler(checkAssessmentCorrectUsers),
     asyncErrorHandler(assessmentCreate)
 );
 
@@ -53,7 +59,9 @@ router.put('/:id',
     isLoggedIn,
     upload.single('file'),
     asyncErrorHandler(checkAssessmentOwnership), 
-    asyncErrorHandler(checkAssessmentStarted), 
+    asyncErrorHandler(checkAssessmentStarted),
+    asyncErrorHandler(checkAssessmentEditHasCorrectLinks),
+    asyncErrorHandler(checkAssessmentEditCorrectUsers),
     asyncErrorHandler(assessmentUpdate)
 );
 
