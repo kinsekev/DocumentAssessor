@@ -2,52 +2,46 @@
 
 
 <div class="container" >
-    
-    <div id="resource-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
-        <div id="resource-column" class="col-md-6">
-            <div id="resource-box" class="col-md-12">
-                </div>
-            </br>
-              
-
-                    <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-                        <h3 align="center">Edit Assessment</h3>
-                        <div class="form-group">
-                            <label  for="title">Title:</label>
-                            <input class="form-control" type="text" id="title" name="newAssess[title]" value="<%= assessment.title %>">
-                        </div>
-                        <div class="form-group" >
-                            <label for="description">Description:</label>
-                            <input class="form-control"type="text" id="description" name="newAssess[description]" value="<%= assessment.description %>">
-                        <div>
-                            <label class="form-group"for="instruction">Instruction:</label>
-                            <input class="form-control"type="text" id="instruction" name="newAssess[instructions]" value="<%= assessment.instructions %>">
-                        </div>
-                        <div class="form-group">
-                            <label for="numUsers">Number of user per assessment:</label>
-                            <input class="form-control" type="number" id="numUsers" name="newAssess[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>">
-                        </div>
-                        <div class="form-group">
-                            <label for="uploadFile">Upload File:</label>
-                            <input class="form-control" type="file" id="uploadFile" name="file" accept=".txt"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="users">Choose users:</label>
-                            <select name="users" id="users" size="5" class="form-control"  multiple>
-                                <option value="">Assign No Users</option>
-                                <% users.forEach(function(user) { %>
-                                    <option value="<%= user.username %>"><%= user.username %></option>
-                                <% }); %>
-                            </select>
-                        </div>
-                        <div align ="center">
-                            <button>Update Assessment</button>
-                        </div>
-                        
-                    </form>
-                </div>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <h3 class="text-center">Edit Assessment</h3>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input id="title" class="form-control" type="text"  name="newAssess[title]" value="<%= assessment.title %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input id="description" class="form-control" type="text" name="newAssess[description]" value="<%= assessment.description %>" required>
+                    <div class="form-group">
+                        <label for="instruction" class="form-group"for="instruction">Instruction:</label>
+                        <input id="instruction" class="form-control"type="text" name="newAssess[instructions]" value="<%= assessment.instructions %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numUsers">Number of user per assessment:</label>
+                        <input id="numUsers" class="form-control" type="number" name="newAssess[numAssessmentsPerUser]" value="<%= assessment.numAssessmentsPerUser %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploadFile">Upload File:</label><br>
+                        <input type="file" id="uploadFile" name="file" accept=".txt" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="users">Choose users:</label>
+                        <select id="users" name="users" size="5" class="form-control" multiple>
+                            <option value="">Assign No Users</option>
+                            <% users.forEach(function(user) { %>
+                                <option value="<%= user.username %>"><%= user.username %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" name="submit" class="btn btn-primary btn-md" value="Update Assessment"> 
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 

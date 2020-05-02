@@ -1,49 +1,38 @@
 <%- include('../partials/header') %>
 
-<div class="container">
-
-
-<div id="edit_resource" >
-   
-</br>
 <div class="container" >
-    
-    <div id="edit-row" class="row justify-content-center align-items-center" enctype="multipart/form-data">
-        <div id="edit-column" class="col-md-6">
-            <div id="edit-box" class="col-md-12">
-                <h1 class="text-center">Edit Form</h1>
+    <div class="row justify-content-center align-items-center" >
+        <div class="col-md-6">
+            <div class="col-md-12">
                 <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
-                
-                    <label class="form-group">Rating</label>
-                    <div class="col-sm-12">
-                      <select class="form-control" name="rating" id="rating">
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                      </select>
-                  </div>
-                  </br>
-                  <label class="form-group">Review </label>
-                  <div class="col-sm-12">
-                      <textarea class="form-control" name="ratingText" id="ratingText" cols="100" rows="3"></textarea>
-                  </div>
-                  </br>
-              <div align="right" class="col-sm-12">
-                  <button  class="btn btn-primary mb-2" type="submit">Submit</button>
-              </div>
-          </br>
-              </div>
-                
-                
+                    <h3 class="text-center text-black">Edit Form</h3>
+                    <br>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label for="ratingText" class="form-group">Review</label>
+                            <textarea id="ratingText" class="form-control" name="ratingText" cols="100" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label class="form-group">Rating</label>
+                            <select class="form-control" name="rating" id="rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <input type="submit" name="updateForm" class="btn btn-primary btn-md" value="Update Form"> 
+                    </div>
                 </form>
-            
-                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
+
 
 <%- include('../partials/footer') %>
