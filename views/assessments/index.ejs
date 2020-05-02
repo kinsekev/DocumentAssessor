@@ -2,33 +2,38 @@
 
 <div class="container">
     <div class="jumbotron">
-      <h1 class="display-4">Welcome to the Assessments Page!</h1>
-      <p class="lead">This is the main page where you can view all of the assessments</p>
-      <hr class="my-4">
-      <p>Get started by creating your own assessment by clicking the button below!</p>
-      <a class="btn btn-primary" href="/assessments/new">Create Assessment</a>
+        <h1 class="display-4">Welcome to the Assessments Page!</h1>
+        <p class="lead">This is the main page where you can view all of the assessments</p>
+        <hr class="my-4">
+        <p>Get started by creating your own assessment by clicking the button below!</p>
+        <a class="btn btn-primary" href="/assessments/new">Create Assessment</a>
     </div>
-    <% assessments.forEach(function(assessment, i) { %>
-      <div class="card">
-          <div class="card-header">
-            <h5>Assesstment: <%= i + 1 %></h5>
-          </div>
-          <div class="card-body">
-            <div>
-                <p class="card-text"><b>Description: </b><%= assessment.description %></p>
-            </div>
-            <div>
-               <p class="card-text"><b>Instructions for Resource: </b><%= assessment.instructions %></p>
-              
-            </div>
-            <div>
-                <p class="card-text"><b>Number of Links per User: </b><%= assessment.numAssessmentsPerUser %></p>
-            </div>
-            <div>
-                <a href="/assessments/<%= assessment.id %>" class="btn btn-primary">View More</a>
-            </div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+            <% assessments.forEach(function(assessment) { %>
+                <div class="col md-4">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-header">
+                            <h5>Assessment: <%= assessment.title %></h5>
+                        </div>
+                        <div class="card-body">
+                            <% if(assessment.description.length > 50) { %>
+                                <p class="card-text"><b>Description: </b><%= assessment.description.substring(0, 50) %>...</p>
+                            <% } else { %>
+                                <p class="card-text"><b>Description: </b><%= assessment.description %></p>
+                            <% } %>
+
+                            <% if(assessment.instructions.length > 50) { %>
+                                <p class="card-text"><b>Instructions: </b><%= assessment.instructions.substring(0, 50) %>...</p>
+                            <% } else { %>
+                                <p class="card-text"><b>Instructions: </b><%= assessment.instructions %></p>
+                            <% } %>
+                            <p class="card-text"><b>Links per User: </b><%= assessment.numAssessmentsPerUser %></p>
+                            <a href="/assessments/<%= assessment.id %>" class="btn btn-info">View More</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
         </div>
-      </div>
-  <% }); %>
+    </div>
 </div>
-<%- include('../partials/footer') %>
