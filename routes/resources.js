@@ -4,7 +4,10 @@ const {
     asyncErrorHandler,
     isLoggedIn,
     checkAssessmentOwnership,
-    checkResourceStarted
+    checkResourceStarted,
+    checkResourceCreateCorrectLinks,
+    checkResourceCreateCorrectUser,
+    checkResourceUpdateCorrectLinks
 } = require('../middleware');
 const multer = require('multer');
 const upload = multer(
@@ -31,7 +34,9 @@ router.get('/new',
 router.post('/',
     isLoggedIn,
     upload.single('file'),
-    asyncErrorHandler(checkAssessmentOwnership), 
+    asyncErrorHandler(checkAssessmentOwnership),
+    asyncErrorHandler(checkResourceCreateCorrectLinks),
+    asyncErrorHandler(checkResourceCreateCorrectUser),
     asyncErrorHandler(resourceCreate)
 );
 
@@ -39,7 +44,7 @@ router.post('/',
 router.get('/:resource_id/edit', 
     isLoggedIn,
     asyncErrorHandler(checkAssessmentOwnership), 
-    asyncErrorHandler(checkResourceStarted), 
+    asyncErrorHandler(checkResourceStarted),
     asyncErrorHandler(resourceEdit)
 );
 
@@ -49,6 +54,7 @@ router.put('/:resource_id',
     upload.single('file'), 
     asyncErrorHandler(checkAssessmentOwnership), 
     asyncErrorHandler(checkResourceStarted), 
+    asyncErrorHandler(checkResourceUpdateCorrectLinks),
     asyncErrorHandler(resourceUpdate)
 );
 

@@ -25,12 +25,11 @@
                                     <li><%= link %></li>
                             </br>
                                     
-                                    
                                 <% }); %>
                             </div>
                             <div class="form-group">
                                 <label for="user">Choose users:</label>
-                                <select class="form-control" name="user" id="user" size="5" multiple>
+                                <select class="form-control" name="user" id="user" size="5">
                                     <option value="">Assign No Users</option>
                                     <% users.forEach(function(user) { %>
                                         <% if(resource.user.username && user.username === resource.user.username) { %>

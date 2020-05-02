@@ -18,7 +18,7 @@ module.exports = {
 		req.flash('error', 'You need to be logged in to do that!');
 		res.redirect('/researchers/login');
 	},
-	checkIfResearcherExists: async (req, res, next) => {
+	checkIfResearcherExists: async(req, res, next) => {
 		let researcherExists = await Reseacher.findOne({ 'username': req.body.username });
 		if(researcherExists) {
 			req.flash('error', 'A researcher with that username already exists');
@@ -26,7 +26,7 @@ module.exports = {
 		}
 		next();
 	},
-	checkAssessmentOwnership: async (req, res, next) => {
+	checkAssessmentOwnership: async(req, res, next) => {
 		let assessmentExists = await Assessment.findById(req.params.id);
 		if(assessmentExists) {
 			if(assessmentExists.researcher.id.equals(req.user._id)) {
@@ -40,7 +40,7 @@ module.exports = {
 			return res.redirect('back');
 		}
 	},
-	checkAssessmentStarted: async (req, res, next) => {
+	checkAssessmentStarted: async(req, res, next) => {
 		let assessmentExists = await Assessment.findById(req.params.id);
 		if(assessmentExists) {
 			if(!assessmentExists.started) {
@@ -54,7 +54,7 @@ module.exports = {
 			return res.redirect('back');
 		}
 	},
-	checkResourceStarted: async (req, res, next) => {
+	checkResourceStarted: async(req, res, next) => {
 		// find the resource by id
 		let resourceExists = await Resource.findById(req.params.resource_id);
 		if(resourceExists) {
@@ -69,7 +69,7 @@ module.exports = {
 			return res.redirect('back');
 		}
 	},
-	checkAssessmentHasCorrectLinks: async (req, res, next) => {
+	checkAssessmentCorrectLinks: async (req, res, next) => {
 		// find all the users in the database
 		let users = await User.find({});
 		// read text file with resources on each line
@@ -143,7 +143,7 @@ module.exports = {
 			next();
 		}
 	},
-	checkAssessmentEditHasCorrectLinks: async (req, res, next) => {
+	checkAssessmentUpdateCorrectLinks: async (req, res, next) => {
 		// find all the users in the database
 		let users = await User.find({});
 		// read text file with resources on each line
@@ -166,7 +166,7 @@ module.exports = {
 		}
 		next();
 	},
-	checkAssessmentEditCorrectUsers: async (req, res, next) => {
+	checkAssessmentUpdateCorrectUsers: async(req, res, next) => {
 		// find all the users in the database
 		let users = await User.find({});
 		// read text file with resources on each line
@@ -205,6 +205,75 @@ module.exports = {
 				} else {
 					next();
 				}
+			}
+		} else {
+			next();
+		}
+	},
+	checkResourceCreateCorrectLinks: async(req, res, next) => {
+		// read text file with resources on each line
+        const fileStream = await fs.createReadStream(req.file.path);
+        const rl = readline.createInterface({
+            input: fileStream,
+            crlfDelay: Infinity
+        });
+        // create an array of resources
+        let resourceArr = [];
+        for await (let line of rl) {
+            resourceArr.push(line);
+		}
+		// variables
+		let assessment = await Assessment.findById(req.params.id);
+
+		let numLinks = resourceArr.length;
+		let numLinksPerUser = assessment.numAssessmentsPerUser;
+		if (numLinks !== numLinksPerUser) {
+			req.flash('error', "The number of links doesn't evenly divide amoung users");
+			return res.redirect(`/assessments/${req.params.id}/resources/new`);
+		}
+		next();
+	},
+	checkResourceCreateCorrectUser: async(req, res, next) => {
+		// define users from input
+		let usersForm = req.body.user;
+		// total users allowed
+		let totalUsers = 1;
+		// numUsers
+		let numUsers;
+
+		if(usersForm && usersForm.length > 0) {
+			if(Array.isArray(usersForm)) {
+				numUsers = usersForm.length;
+				if (numUsers > totalUsers) {
+					req.flash('error', 'There are too many users assigned to this resource');
+					return res.redirect(`/assessments/${req.params.id}/resources/new`);
+				} else {
+					next();
+				}
+			} 
+		} else {
+			next();
+		}
+	},
+	checkResourceUpdateCorrectLinks: async(req, res, next) => {
+		if(req.body.deleteLinks && req.body.deleteLinks.length) {
+            // read text file with resources on each line
+            const fileStream = await fs.createReadStream(req.file.path);
+            const rl = readline.createInterface({
+                input: fileStream,
+                crlfDelay: Infinity
+            });
+            // create an array of resources
+            let linksArr = [];
+            for await (let line of rl) {
+                linksArr.push(line);
+			}
+			let deleteLinks = req.body.deleteLinks;
+			if (linksArr.length !== deleteLinks.length) {
+				req.flash('error', 'The number of removed links does not match the number of links in file');
+				return res.redirect(`/assessments/${req.params.id}/resources/${req.params.resource_id}/edit`);
+			} else{
+				next();
 			}
 		} else {
 			next();
