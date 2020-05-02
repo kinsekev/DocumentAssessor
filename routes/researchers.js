@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const { 
   asyncErrorHandler,
@@ -8,7 +9,6 @@ const {
   getRegister,
   postRegister,
   getLogin,
-  postLogin,
   getLogout
 } = require('../controllers/researchers');
 
@@ -25,7 +25,13 @@ router.post('/register',
 router.get('/login', getLogin);
 
 /* POST /login */
-router.post('/login', postLogin);
+router.post('/login', passport.authenticate('local',
+    { 
+      successRedirect: '/assessments', 
+      failureRedirect: '/researchers/login',
+      successFlash: 'Welcome to the Document Assessor Application App ',
+      failureFlash: 'Invalid username or password'
+}));
 
 /* GET /logout */
 router.get('/logout', getLogout);

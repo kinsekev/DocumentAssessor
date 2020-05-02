@@ -1,3 +1,4 @@
+const Assessment = require('../models/assessment');
 const Researcher = require('../models/researcher');
 const passport = require('passport');
 
@@ -26,13 +27,7 @@ module.exports = {
     getLogin(req, res, next) {
         res.render('researchers/login');
     },
-    // POST /login
-    postLogin(req, res, next) {
-        passport.authenticate('local', {
-            successRedirect: '/assessments',
-            failureRedirect: '/researchers/login'
-        })(req, res, next);
-    },
+    
     // GET /logout
     getLogout(req, res, next) {
         req.logout();
