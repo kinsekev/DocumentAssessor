@@ -8,17 +8,30 @@
     margin-bottom: 20px;
 }
 
+.container-card {
+    margin: auto;
+    width: 90%;
+}
+
 .card {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;;
 }
 
-#button-div {
-    margin-top: 15px;
+.delete-form {
+    display: inline;
 }
 
-.btn-warning {
-    margin-right: 10px;
+.button-div {
+    display: inline-block;
+    margin: 8px;
+}
+
+.start-resource-button {
+    position: absolute;
+}
+
+.inner {
+    display: inline;
 }
 
 .page-footer {
@@ -27,17 +40,4 @@
   	background-color: black;
     color: white;
     text-align: center"
-}
-
-label {
-    display: inline-block;
-}
-
-#create-box {
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-
-.inline-header {
-    display: inline-block;
 }
