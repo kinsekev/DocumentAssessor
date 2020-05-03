@@ -121,6 +121,8 @@ module.exports = {
 
     // show assessment
     async assessmentShow(req, res, next) {
+        // pass the users to the show page
+        let users = await User.find({});
         // find the assessment by id and populate the nested forms
         let assessment = await Assessment.findById(req.params.id).populate({
             path: 'resources forms',
@@ -129,7 +131,7 @@ module.exports = {
             }   
         }).exec();
         // render the assessments/show page passing in the assessment
-        res.render('assessments/show', { assessment });
+        res.render('assessments/show', { assessment, users });
     },
 
     // edit route

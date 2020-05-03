@@ -8,11 +8,13 @@
             <p class="card-text">Instructions: <%= assessment.instructions %></p>
             <p class="card-text">Links per User: <%= assessment.numAssessmentsPerUser %></p>
             <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !assessment.started) { %>
-                <a class="btn btn-primary" href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
-                <form class="delete-form" action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
-                    <input class="btn btn-danger float-right" type="submit" value="Delete Assessment">
-                </form>
+                <div class="button-form">
+                    <a class="btn btn-primary" href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
+                    <form class="delete-form" action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
+                        <input class="btn btn-danger float-right" type="submit" value="Delete Assessment">
+                    </form>
                 <a class="btn btn-warning float-right" href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
+                </div>
             <% } %>
         </div>
     </div>
@@ -22,7 +24,19 @@
                 <% if(resource.user.username) { %>
                     <h5 class="card-header">Resource: <%= i + 1 %> <span class="float-right">User Assigned: <%= resource.user.username %></span></h5>
                 <% } else { %>
-                    <h5 class="card-header">Resource: <%= i + 1 %> <span class="float-right">User Assigned: No User Assigned</span></h5>
+                    <h5 class="card-header">Resource: <%= i + 1 %> 
+                        <form class="form-inline form-group float-right" method="POST"
+                              action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/assign">
+                            <select class="form-control" name="users" id="users">
+                                <% users.forEach(function(user) { %>
+                                    <option value="<%= user.username %>"><%= user.username %></option>
+                                <% }); %>
+                            </select>
+                            <div class="form-group text-center">
+                                <input type="submit" name="submit" class="btn btn-secondary btn-md" value="Assign User"> 
+                            </div>
+                        </form>
+                    </h5>
                 <% } %>
                 <% if(!resource.started) { %>
                     <ul class="list-group list-group-flush">
@@ -62,7 +76,7 @@
                                             <div class="card-body">
                                                 <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>?_method=PUT" method="POST">
                                                     <div class="form-group col-md-9">
-                                                        <label for="ratingText">Textrea: </label>
+                                                        <label for="ratingText">Review: </label>
                                                         <textarea class="form-control" id="ratingText" name="ratingText" id="ratingText" cols="75" rows="2"></textarea>
                                                     </div>
                                                     <div class="col-sm-2">

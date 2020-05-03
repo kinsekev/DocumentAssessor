@@ -30,7 +30,7 @@ router.get('/', asyncErrorHandler(assessmentIndex));
 
 /* GET NEW assessments /assessments/new */
 router.get('/new', 
-    isLoggedIn, 
+    isLoggedIn,
     asyncErrorHandler(assessmentNew)
 );
 
@@ -58,7 +58,7 @@ router.get('/:id/edit',
 router.put('/:id', 
     isLoggedIn,
     upload.single('file'),
-    asyncErrorHandler(checkAssessmentOwnership), 
+    asyncErrorHandler(checkAssessmentOwnership),
     asyncErrorHandler(checkAssessmentStarted),
     asyncErrorHandler(checkAssessmentUpdateCorrectLinks),
     asyncErrorHandler(checkAssessmentUpdateCorrectUsers),
