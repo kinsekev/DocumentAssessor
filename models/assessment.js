@@ -4,7 +4,7 @@ const assessmentSchema = new mongoose.Schema({
     title: String,
     description: String,
     instructions: String,
-    numAssessmentsPerUser: Number,
+    numLinksPerUser: Number,
     started: Boolean,
     resources: [
         {

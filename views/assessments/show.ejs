@@ -6,7 +6,7 @@
         <div class="card-body">
             <p class="card-text">Description: <%= assessment.description %></p>
             <p class="card-text">Instructions: <%= assessment.instructions %></p>
-            <p class="card-text">Links per User: <%= assessment.numAssessmentsPerUser %></p>
+            <p class="card-text">Links per User: <%= assessment.numLinksPerUser %></p>
             <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !assessment.started) { %>
                 <div class="button-form">
                     <a class="btn btn-primary" href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
@@ -23,10 +23,10 @@
             <div class="card">
                 <% if(resource.user.username) { %>
                     <h5 class="card-header">Resource: <%= i + 1 %> <span class="float-right">User Assigned: <%= resource.user.username %></span></h5>
-                <% } else { %>
+                <% } else if(currentUser && assessment.researcher.id.equals(currentUser._id)) { %>
                     <h5 class="card-header resource-header">Resource: <%= i + 1 %> 
                         <form class="form-inline form-group float-right" method="POST"
-                              action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/assign">
+                            action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/assign">
                             <select class="form-control" name="users" id="users">
                                 <% users.forEach(function(user) { %>
                                     <option value="<%= user.username %>"><%= user.username %></option>
@@ -37,6 +37,8 @@
                             </div>
                         </form>
                     </h5>
+                <% } else { %>
+                    <h5 class="card-header">Resource: <%= i + 1 %> <span class="float-right">User Assigned: No User Assigned</span></h5>
                 <% } %>
                 <% if(!resource.started) { %>
                     <ul class="list-group list-group-flush">

@@ -99,7 +99,7 @@ module.exports = {
 		}
 		// variables
 		let numLinks = resourceArr.length;
-		let numLinksPerUser = req.body.assessment.numAssessmentsPerUser;
+		let numLinksPerUser = req.body.assessment.numLinksPerUser;
 		if (numLinks % numLinksPerUser !== 0) {
 			return res.render('assessments/new', 
 				{ 
@@ -125,7 +125,7 @@ module.exports = {
 		// define users from input
 		let usersForm = req.body.users;
 		// define links per user
-		let linksPerUser = req.body.assessment.numAssessmentsPerUser;
+		let linksPerUser = req.body.assessment.numLinksPerUser;
 		// define total users allowed
 		let totalUsers = resourceArr.length / linksPerUser;
 		// define numUsers
@@ -179,7 +179,7 @@ module.exports = {
 		// number links in text file
 		let numLinks = resourceArr.length;
 		// number links per user
-		let numLinksPerUser = req.body.newAssess.numAssessmentsPerUser;
+		let numLinksPerUser = req.body.newAssess.numLinksPerUser;
 		// check if they are evenlt divisiable 
 		if (numLinks % numLinksPerUser !== 0) {
 			// redirect if not
@@ -203,7 +203,7 @@ module.exports = {
 		// define users from input
 		let usersForm = req.body.users;
 		// define links per user
-		let linksPerUser = req.body.newAssess.numAssessmentsPerUser;
+		let linksPerUser = req.body.newAssess.numLinksPerUser;
 		// total users allowed
 		let totalUsers = resourceArr.length / linksPerUser;
 		// numUsers
@@ -252,7 +252,7 @@ module.exports = {
 		// number of links passed in text file
 		let numLinks = resourceArr.length;
 		// number of links per user
-		let numLinksPerUser = assessment.numAssessmentsPerUser;
+		let numLinksPerUser = assessment.numLinksPerUser;
 		// check if they are the same
 		if (numLinks !== numLinksPerUser) {
 			// redirect if they are not

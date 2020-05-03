@@ -48,7 +48,7 @@ module.exports = {
         }
         // create variables for assignment
         let task = assessment.instructions;
-        let lastIndex = assessment.numAssessmentsPerUser;
+        let lastIndex = assessment.numLinksPerUser;
         // create a resource based on the number of assessment per user
         for (let i = 0; i < resourceArr.length; i += lastIndex) {
             // create resource object
@@ -192,7 +192,7 @@ module.exports = {
         }
         // create variables for assignment
         let task = newAssessment.instructions;
-        let lastIndex = newAssessment.numAssessmentsPerUser;
+        let lastIndex = newAssessment.numLinksPerUser;
         // create a resource based on the number of assessment per user
         for (let i = 0; i < resourceArr.length; i += lastIndex) {
             // create resource object
