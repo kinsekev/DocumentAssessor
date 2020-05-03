@@ -261,30 +261,6 @@ module.exports = {
 		}
 		next();
 	},
-	checkResourceCreateCorrectUser: async(req, res, next) => {
-		// define users from input
-		let usersForm = req.body.user;
-		// total users allowed
-		let totalUsers = 1;
-		// numUsers
-		let numUsers;
-		if(usersForm && usersForm.length > 0) {
-			// multiple users passed
-			if(Array.isArray(usersForm)) {
-				numUsers = usersForm.length;
-				// check if more than one user is assigned to a single resource
-				if (numUsers > totalUsers) {
-					// redirect back if so
-					req.flash('error', 'There are too many users assigned to this resource');
-					return res.redirect(`/assessments/${req.params.id}/resources/new`);
-				} else {
-					next();
-				}
-			} 
-		} else {
-			next();
-		}
-	},
 	checkResourceUpdateCorrectLinks: async(req, res, next) => {
 		if(req.body.deleteLinks && req.body.deleteLinks.length) {
             // read text file with resources on each line

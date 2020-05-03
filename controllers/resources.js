@@ -77,6 +77,7 @@ module.exports = {
 
     // update resource route
     async resourceUpdate(req, res, next) {
+        console.log(req.body.task);
         // define variables
         let user = req.body.user;
         let userObj;
@@ -93,9 +94,11 @@ module.exports = {
             // if assign no user is passed
             userObj = undefined;
         }
+        // find the assessment by id
+        let assessment = await Assessment.findById(req.params.id);
         // define updated object
         let updatedObj = {
-            task: req.body.resource.task,
+            task: assessment.instructions,
             user: userObj
         }
         // update resource from req.body.resource object passed through form

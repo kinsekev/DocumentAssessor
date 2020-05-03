@@ -17,7 +17,7 @@ module.exports = {
                 return res.render('researchers/register', {'error': err.message});
             } else {
                 passport.authenticate('local')(req, next, function() {
-                    req.flash('success', 'Welcome to Document Assessor ' + req.body.username);
+                    req.flash('success', 'Welcome to Document Assessor, ' + req.body.username);
                     res.redirect('/assessments');
                 });
             }

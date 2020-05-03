@@ -6,7 +6,6 @@ const {
     checkAssessmentOwnership,
     checkResourceStarted,
     checkResourceCreateCorrectLinks,
-    checkResourceCreateCorrectUser,
     checkResourceUpdateCorrectLinks
 } = require('../middleware');
 const multer = require('multer');
@@ -36,7 +35,6 @@ router.post('/',
     upload.single('file'),
     asyncErrorHandler(checkAssessmentOwnership),
     asyncErrorHandler(checkResourceCreateCorrectLinks),
-    asyncErrorHandler(checkResourceCreateCorrectUser),
     asyncErrorHandler(resourceCreate)
 );
 

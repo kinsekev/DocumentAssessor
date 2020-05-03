@@ -13,7 +13,7 @@
                     <form class="delete-form" action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
                         <input class="btn btn-danger float-right" type="submit" value="Delete Assessment">
                     </form>
-                <a class="btn btn-warning float-right" href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
+                    <a class="btn btn-warning float-right" href="/assessments/<%= assessment._id %>/edit">Edit Assessment</a>
                 </div>
             <% } %>
         </div>
@@ -24,7 +24,7 @@
                 <% if(resource.user.username) { %>
                     <h5 class="card-header">Resource: <%= i + 1 %> <span class="float-right">User Assigned: <%= resource.user.username %></span></h5>
                 <% } else { %>
-                    <h5 class="card-header">Resource: <%= i + 1 %> 
+                    <h5 class="card-header resource-header">Resource: <%= i + 1 %> 
                         <form class="form-inline form-group float-right" method="POST"
                               action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/assign">
                             <select class="form-control" name="users" id="users">
@@ -90,7 +90,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="text-right">
-                                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                                        <button class="btn btn-primary" type="submit">Submit Form</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -107,7 +107,7 @@
                                              aria-labelledby="resource<%= resource._id %>Heading<%= i + 1%>" data-parent="#accordion">
                                            <div class="card-body">
                                                <div class="card-text">
-                                                   Text Answer: <%= form.text %>
+                                                   Review: <%= form.text %>
                                                </div>
                                                <div class="card-text">
                                                    Rating: <%= form.rating %>
@@ -119,6 +119,7 @@
                                                </form>
                                                <a class="btn btn-warning float-right" href="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms/<%= form._id %>/edit">Edit Form</a>
                                            </div>
+                                        </div>
                                     <% } %>
                                 </div>
                             </div>
