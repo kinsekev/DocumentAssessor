@@ -53,7 +53,16 @@ module.exports = {
             rating: req.body.rating
         }
         // update the resource with the assessment from the user
-        await Form.findByIdAndUpdate(req.params.form_id, formObj);
+        let form = await Form.findByIdAndUpdate(req.params.form_id, formObj);
+
+        if(!form.started) {
+            form.started = true
+            form.save();
+            // find the assessment by id
+            let assessment = await Assessment.findById(req.params.id);
+            assessment.totalLinksCompleted += 1;
+            assessment.save();
+        }
         // add flash message
         req.flash('success', 'Successfully submitted the form');
         // redirect to the assessment page
@@ -82,6 +91,10 @@ module.exports = {
         resource.forms.push(newForm);
         // save the resource
         resource.save();
+        // find the assessment by id
+        let assessment = await Assessment.findById(req.params.id);
+        assessment.totalLinksCompleted -= 1;
+        assessment.save();
         // add flash message
         req.flash('success', 'Successfully restarted the form');
         // redirect to the assessment page

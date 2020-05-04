@@ -2,8 +2,24 @@
 
 <div class="container">
     <div class="card">
-        <h4 class="card-header">Assessment: <%= assessment.title %></h4>
+        <h4 class="card-header">Assessment: <%= assessment.title %>
+            <div class="col-sm-3 float-right">
+                <div class="progress">
+                    <% if(assessment.percentageComplete <= 25) { %>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width:<%= assessment.percentageComplete %>%"
+                             aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
+                    <% } else if(assessment.percentageComplete <= 75) { %>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: <%= assessment.percentageComplete %>%" 
+                            aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
+                    <% } else { %>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: <%= assessment.percentageComplete %>%" 
+                            aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
+                    <% } %>
+                </div>
+            </div>
+        </h4>
         <div class="card-body">
+            <p><%= perComp %></p>
             <p class="card-text">Description: <%= assessment.description %></p>
             <p class="card-text">Instructions: <%= assessment.instructions %></p>
             <p class="card-text">Links per User: <%= assessment.numLinksPerUser %></p>

@@ -24,17 +24,6 @@ module.exports = {
     
     // create assessment
     async assessmentCreate(req, res, next) {
-        // adding user
-        req.body.assessment.researcher = {
-            id: req.user._id,
-            username: req.user.username
-        }
-        // create the assessment
-        let assessment = await Assessment.create(req.body.assessment);
-        // set the assessment started to false
-        assessment.started = false;
-        // save assessment
-        assessment.save();
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
@@ -46,6 +35,20 @@ module.exports = {
         for await (let line of rl) {
             resourceArr.push(line);
         }
+        // adding user
+        req.body.assessment.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
+        // create the assessment
+        let assessment = await Assessment.create(req.body.assessment);
+        // set the assessment started to false
+        assessment.started = false;
+        assessment.totalNumLinks = resourceArr.length;
+        assessment.totalLinksCompleted = 0;
+        // save assessment
+        assessment.save();
+        
         // create variables for assignment
         let task = assessment.instructions;
         let lastIndex = assessment.numLinksPerUser;
@@ -130,8 +133,10 @@ module.exports = {
                 path: 'forms'
             }   
         }).exec();
+        let perComp = assessment.calPercentComp();
+        console.log(assessment);
         // render the assessments/show page passing in the assessment
-        res.render('assessments/show', { assessment, users });
+        res.render('assessments/show', { assessment, users, perComp });
     },
 
     // edit route
@@ -168,17 +173,6 @@ module.exports = {
         }
         // delete the assessment
         await assessment.remove();
-        // adding user
-        req.body.newAssess.researcher = {
-            id: req.user._id,
-            username: req.user.username
-        }
-        // create the assessment
-        let newAssessment = await Assessment.create(req.body.newAssess);
-        // set the assessment started to false
-        newAssessment.started = false;
-        // save assessment
-        newAssessment.save();
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
@@ -190,6 +184,20 @@ module.exports = {
         for await (let line of rl) {
             resourceArr.push(line);
         }
+        // adding user
+        req.body.newAssess.researcher = {
+            id: req.user._id,
+            username: req.user.username
+        }
+        // create the assessment
+        let newAssessment = await Assessment.create(req.body.newAssess);
+        // set the assessment started to false
+        newAssessment.started = false;
+        newAssessment.totalNumLinks = resourceArr.length;
+        newAssessment.totalLinksCompleted = 0;
+        // save assessment
+        newAssessment.save();
+        
         // create variables for assignment
         let task = newAssessment.instructions;
         let lastIndex = newAssessment.numLinksPerUser;

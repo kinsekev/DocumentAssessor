@@ -18,7 +18,19 @@ const assessmentSchema = new mongoose.Schema({
             ref: 'Researcher'
         },
         username: String
+    },
+    totalNumLinks: Number,
+    totalLinksCompleted: Number,
+    percentageComplete: {
+        type: Number,
+        default: 0
     }
 });
+
+assessmentSchema.methods.calPercentComp = function() {
+    this.percentageComplete = Math.floor((this.totalLinksCompleted / this.totalNumLinks) * 100);
+    this.save();
+    return this.percentageComplete;
+}
 
 module.exports = mongoose.model('Assessment', assessmentSchema);

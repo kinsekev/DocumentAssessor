@@ -21,6 +21,8 @@ module.exports = {
     async resourceCreate(req, res, next) {
         // find the assessment
         let assessment = await Assessment.findById(req.params.id);
+
+
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({
@@ -44,6 +46,7 @@ module.exports = {
         let resource = await Resource.create(resourceObj);
         // push resource onto the assessment
         assessment.resources.push(resource);
+        assessment.totalNumLinks += assessment.numLinksPerUser;
         // save the assessment
         assessment.save();
         // check if a user was passed
@@ -141,6 +144,10 @@ module.exports = {
 
     // delete resource
     async resourceDestroy(req, res, next) {
+        // find the assessment by id
+        let assessment = await Assessment.findById(req.params.id);
+        assessment.totalNumLinks -= assessment.numLinksPerUser;
+        assessment.save();
         // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
         // delete the resource
