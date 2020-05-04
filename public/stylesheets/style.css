@@ -17,15 +17,26 @@
     margin-bottom: 20px;;
 }
 
+.btn-danger {
+    margin-left: 5px;
+}
+
+.btn-secondary {
+    margin-left: 5px;
+}
+
 .delete-form {
     display: inline;
+}
+
+.resource-buttons {
+    margin: 5px;
 }
 
 .button-div {
     display: inline-block;
     margin: 8px;
 }
-
 
 .page-footer {
     margin-top: 150px;

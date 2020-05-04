@@ -10,21 +10,20 @@
                              aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
                     <% } else if(assessment.percentageComplete <= 75) { %>
                         <div class="progress-bar bg-warning" role="progressbar" style="width: <%= assessment.percentageComplete %>%" 
-                            aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
+                             aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
                     <% } else { %>
                         <div class="progress-bar bg-success" role="progressbar" style="width: <%= assessment.percentageComplete %>%" 
-                            aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
+                             aria-valuenow="<%= assessment.percentageComplete %>" aria-valuemin="0" aria-valuemax="100"><%= assessment.percentageComplete %>%</div>
                     <% } %>
                 </div>
             </div>
         </h4>
         <div class="card-body">
-            <p><%= perComp %></p>
             <p class="card-text">Description: <%= assessment.description %></p>
             <p class="card-text">Instructions: <%= assessment.instructions %></p>
             <p class="card-text">Links per User: <%= assessment.numLinksPerUser %></p>
             <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !assessment.started) { %>
-                <div class="button-form">
+                <div>
                     <a class="btn btn-primary" href="/assessments/<%= assessment._id %>/resources/new">Add New Resource</a>
                     <form class="delete-form" action="/assessments/<%= assessment._id %>?_method=DELETE" method="POST">
                         <input class="btn btn-danger float-right" type="submit" value="Delete Assessment">
@@ -62,17 +61,17 @@
                             <li class="list-group-item"><%= link %></li>
                         <% }); %>
                     </ul>
-                    <div class="button-div">
+                    <div class="resource-buttons">
                         <% if(resource.user.username) { %>
-                            <form class="start-resource-button" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms" method="POST">
+                            <form style="display: inline-block;" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/forms" method="POST">
                                 <input class="btn btn-primary" type="submit" value="Start Resource">
                             </form>
                         <% } %>
                         <% if(currentUser && assessment.researcher.id.equals(currentUser._id) && !resource.started) { %>
-                            <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=DELETE" method="POST">
+                            <form class="delete-form" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=DELETE" method="POST">
                                 <input class="btn btn-danger float-right" type="submit" value="Delete Resource">
                             </form>
-                            <form action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/edit" method="GET">
+                            <form class="delete-form" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>/edit" method="GET">
                                 <input class="btn btn-warning float-right" type="submit" value="Edit Resource">
                             </form>
                         <% } %>
