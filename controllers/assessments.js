@@ -1,5 +1,6 @@
 const fs = require('fs');
 const readline = require('readline');
+const mongoose = require('mongoose');
 const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Form = require('../models/form');
@@ -129,25 +130,21 @@ module.exports = {
                 path: 'forms'
             }   
         }).exec();
-        // pass the users to the show page
-		let users = await User.find({});
-		// store assigned users in an array
-		let assessmentUsers = [];
-        assessment.resources.forEach(function(resoruce) {
-            console.log(resoruce);
-            if(resoruce.user !== {} && resoruce.user.username) {
-                assessmentUsers.push(resoruce.user.username);
+        // define array for assigned users
+        let assessmentUsers = [];
+        // find the users object id for each assigned resource
+        for await(let resoruce of assessment.resources) {
+            if(resoruce.user.username) {
+                assessmentUsers.push(mongoose.Types.ObjectId(resoruce.user.id));
             }
-        });
-		// filter the users if they are present
-        users.forEach(function(user, i) {
-            assessmentUsers.forEach(function(curUser) {
-                if(user.username.replace(/[^a-z0-9+]+/gi, '+').
-                        localeCompare(curUser.replace(/[^a-z0-9+]+/gi, '+')) != -1) {
-                    users.splice(i, 1);
+        }
+        // filter to the unassigned users
+		let users = await User.find(
+            {
+                _id: {
+                    $nin: assessmentUsers
                 }
             });
-        });
         // render the assessments/show page passing in the assessment
         res.render('assessments/show', { assessment, users });
     },
