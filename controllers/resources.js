@@ -11,7 +11,7 @@ module.exports = {
     async resourceNew(req, res, next) {
         // find the assessment by id
         let assessment = await Assessment.findById(req.params.id);
-        // find the users by id
+        // pass the users to the show page
         let users = await User.find({});
         // render the resources/new page passing in the assessment and users
         res.render('resources/new', { assessment, users });
@@ -21,7 +21,6 @@ module.exports = {
     async resourceCreate(req, res, next) {
         // find the assessment
         let assessment = await Assessment.findById(req.params.id);
-
 
         // read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
@@ -72,8 +71,8 @@ module.exports = {
         let assessment = await Assessment.findById(req.params.id);
         // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
-        // find the users by id
-        let users = await User.find({});
+        // pass the users to the show page
+		let users = await User.find({});
         // render the resources/edit page, passing the assessment, resources and users
         res.render('resources/edit', { assessment, resource, users });
     },

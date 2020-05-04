@@ -46,8 +46,6 @@ module.exports = {
         assessment.started = false;
         assessment.totalNumLinks = resourceArr.length;
         assessment.totalLinksCompleted = 0;
-        // save assessment
-        assessment.save();
         
         // create variables for assignment
         let task = assessment.instructions;
@@ -124,8 +122,6 @@ module.exports = {
 
     // show assessment
     async assessmentShow(req, res, next) {
-        // pass the users to the show page
-        let users = await User.find({});
         // find the assessment by id and populate the nested forms
         let assessment = await Assessment.findById(req.params.id).populate({
             path: 'resources forms',
@@ -133,10 +129,27 @@ module.exports = {
                 path: 'forms'
             }   
         }).exec();
-        let perComp = assessment.calPercentComp();
-        console.log(assessment);
+        // pass the users to the show page
+		let users = await User.find({});
+		// store assigned users in an array
+		let assessmentUsers = [];
+        assessment.resources.forEach(function(resoruce) {
+            console.log(resoruce);
+            if(resoruce.user !== {} && resoruce.user.username) {
+                assessmentUsers.push(resoruce.user.username);
+            }
+        });
+		// filter the users if they are present
+        users.forEach(function(user, i) {
+            assessmentUsers.forEach(function(curUser) {
+                if(user.username.replace(/[^a-z0-9+]+/gi, '+').
+                        localeCompare(curUser.replace(/[^a-z0-9+]+/gi, '+')) != -1) {
+                    users.splice(i, 1);
+                }
+            });
+        });
         // render the assessments/show page passing in the assessment
-        res.render('assessments/show', { assessment, users, perComp });
+        res.render('assessments/show', { assessment, users });
     },
 
     // edit route

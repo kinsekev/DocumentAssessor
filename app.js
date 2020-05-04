@@ -75,7 +75,7 @@ app.use('/assessments/:id/resources/:resource_id/forms', formRouter);
 app.use('/assessments/:id/resources/:resource_id/assign', assignRouter);
 
 // mock users
-seedUserDB();
+//seedUserDB();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
