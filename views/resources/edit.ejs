@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <form class="form card p-3 bg-light" action="/assessments/<%= assessment._id %>/resources/<%= resource._id %>?_method=PUT" 
                       method="POST" enctype="multipart/form-data">
-                    <h3 class="text-center text-black">New Resource</h3>
+                    <h3 class="text-center text-black">Edit Resource</h3>
                     <div class="form-group">
                         <label for="uploadFile">Upload File:</label><br>
                         <input id="uploadFile" type="file" name="file" accept=".txt" value="uploadFile"/>
@@ -22,8 +22,8 @@
                         <% }); %>
                     </div>
                     <div class="form-group">
-                        <label for="user">Choose users:</label>
-                        <select id="user" class="form-control" name="user" size="5">
+                        <label for="user">Choose user:</label>
+                        <select id="user" class="form-control" name="user">
                             <option value="">Assign No Users</option>
                             <% users.forEach(function(user) { %>
                                 <% if(resource.user.username && user.username === resource.user.username) { %>
@@ -35,7 +35,7 @@
                         </select>
                     </div>
                     <div class="form-group text-center">
-                        <input type="submit" name="updateResource" class="btn btn-primary btn-md" value="Update Assessment"> 
+                        <input type="submit" name="updateResource" class="btn btn-primary btn-md" value="Update Resource"> 
                     </div> 
                 </form>
             </div>

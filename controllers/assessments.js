@@ -145,8 +145,9 @@ module.exports = {
                     $nin: assessmentUsers
                 }
             });
+        let perComp = assessment.calPercentComp();
         // render the assessments/show page passing in the assessment
-        res.render('assessments/show', { assessment, users });
+        res.render('assessments/show', { assessment, users, perComp });
     },
 
     // edit route

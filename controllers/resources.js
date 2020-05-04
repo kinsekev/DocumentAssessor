@@ -82,11 +82,24 @@ module.exports = {
     // edit resource route
     async resourceEdit(req, res, next) {
         // find the assessment by id
-        let assessment = await Assessment.findById(req.params.id);
+        let assessment = await Assessment.findById(req.params.id).populate('resources');
         // find the resource by id
         let resource = await Resource.findById(req.params.resource_id);
-        // pass the users to the show page
-		let users = await User.find({});
+		// define array for assigned users
+        let assessmentUsers = [];
+        // find the users object id for each assigned resource
+        for await(let resoruce of assessment.resources) {
+            if(resoruce.user.username) {
+                assessmentUsers.push(mongoose.Types.ObjectId(resoruce.user.id));
+            }
+        }
+        // filter to the unassigned users
+		let users = await User.find(
+            {
+                _id: {
+                    $nin: assessmentUsers
+                }
+            });;
         // render the resources/edit page, passing the assessment, resources and users
         res.render('resources/edit', { assessment, resource, users });
     },
