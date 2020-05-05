@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 const users = [];
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 10; i++) {
     let username = faker.name.findName();
     users.push({ username });
 }

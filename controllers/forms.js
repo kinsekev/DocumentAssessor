@@ -1,7 +1,6 @@
 const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
 const Form = require('../models/form');
-const User = require('../models/user');
 
 module.exports = {
 
@@ -56,11 +55,13 @@ module.exports = {
         let form = await Form.findByIdAndUpdate(req.params.form_id, formObj);
 
         if(!form.started) {
+            // set form started to true
             form.started = true
             form.save();
             // find the assessment by id
             let assessment = await Assessment.findById(req.params.id);
             assessment.totalLinksCompleted += 1;
+            // sae the assessment
             assessment.save();
         }
         // add flash message

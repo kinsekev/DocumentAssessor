@@ -29,7 +29,7 @@ router.post('/login', passport.authenticate('local',
     { 
       successRedirect: '/assessments', 
       failureRedirect: '/researchers/login',
-      successFlash: 'Welcome to the Document Assessor Application App ',
+      successFlash: 'Welcome to the Document Assessor Application',
       failureFlash: 'Invalid username or password'
 }));
 

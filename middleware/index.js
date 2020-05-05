@@ -163,8 +163,6 @@ module.exports = {
 		}
 	},
 	checkAssessmentUpdateCorrectLinks: async (req, res, next) => {
-		// find all the users in the database
-		let users = await User.find({});
 		// read text file with resources on each line
         const fileStream = await fs.createReadStream(req.file.path);
         const rl = readline.createInterface({

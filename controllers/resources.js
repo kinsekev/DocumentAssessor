@@ -3,7 +3,6 @@ const readline = require('readline');
 const mongoose = require('mongoose');
 const Assessment = require('../models/assessment');
 const Resource = require('../models/resource');
-const Form = require('../models/form');
 const User = require('../models/user');
 
 module.exports = {
@@ -106,7 +105,6 @@ module.exports = {
 
     // update resource route
     async resourceUpdate(req, res, next) {
-        console.log(req.body.task);
         // define variables
         let user = req.body.user;
         let userObj;
