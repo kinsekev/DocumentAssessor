@@ -18,4 +18,11 @@ Run npm start
 Browse to http://localhost:3000
 ```
 
+```
+Register and login to the application
+Click create assessment
+Fill the form out (example text file is - links1.txt)
+Submit
+```
+
 
