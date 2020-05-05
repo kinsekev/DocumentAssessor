@@ -5,8 +5,8 @@
 ```
 Technologies:
 
-Install NodeJS
-Install MongoDB
+install NodeJS
+install MongoDB
 ```
 
 ```
